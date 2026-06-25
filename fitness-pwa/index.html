@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#121212">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ورزشی">
+    <meta name="description" content="سوپر اپلیکیشن ورزشی شخصی - مدیریت تمرینات کالیستنیکس، تغذیه و سلامتی">
+    <title>اپلیکیشن ورزشی | کالیستنیکس</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="icons/icon-512.svg">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+    <style>
+        :root {
+            --font-primary: 'Vazirmatn', 'Tahoma', 'Segoe UI', system-ui, sans-serif;
+            --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 22px;
+            --radius-xl: 28px;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.18);
+            --shadow-glow: 0 0 24px rgba(255, 87, 34, 0.3);
+            --nav-height: 68px;
+            --header-height: 60px;
+            --safe-bottom: env(safe-area-inset-bottom, 12px);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f5f5f7;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f0f0f2;
+            --bg-card: #ffffff;
+            --bg-card-hover: #fafafa;
+            --bg-nav: rgba(255, 255, 255, 0.92);
+            --bg-glass: rgba(255, 255, 255, 0.75);
+            --text-primary: #1a1a1e;
+            --text-secondary: #55555a;
+            --text-tertiary: #888890;
+            --text-inverse: #ffffff;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --border-card: rgba(0, 0, 0, 0.06);
+            --accent: #ff5722;
+            --accent-hover: #e64a19;
+            --accent-soft: rgba(255, 87, 34, 0.1);
+            --accent-glow: rgba(255, 87, 34, 0.25);
+            --green: #2ecc71;
+            --green-soft: rgba(46, 204, 113, 0.12);
+            --blue: #3498db;
+            --blue-soft: rgba(52, 152, 219, 0.12);
+            --purple: #9b59b6;
+            --purple-soft: rgba(155, 89, 182, 0.12);
+            --orange: #f39c12;
+            --orange-soft: rgba(243, 156, 18, 0.12);
+            --red: #e74c3c;
+            --red-soft: rgba(231, 76, 60, 0.12);
+            --gradient-hero: linear-gradient(135deg, #ff5722, #ff8a65);
+            --gradient-card-1: linear-gradient(135deg, #ff6d3a, #ff5722);
+            --gradient-card-2: linear-gradient(135deg, #2ecc71, #27ae60);
+            --gradient-card-3: linear-gradient(135deg, #3498db, #2980b9);
+            --gradient-card-4: linear-gradient(135deg, #9b59b6, #8e44ad);
+            --nav-shadow: 0 -2px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0d0d10;
+            --bg-secondary: #16161c;
+            --bg-tertiary: #1c1c24;
+            --bg-card: #1a1a22;
+            --bg-card-hover: #20202a;
+            --bg-nav: rgba(18, 18, 24, 0.94);
+            --bg-glass: rgba(22, 22, 28, 0.8);
+            --text-primary: #e8e8ed;
+            --text-secondary: #b0b0b8;
+            --text-tertiary: #707078;
+            --text-inverse: #ffffff;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-card: rgba(255, 255, 255, 0.05);
+            --accent: #ff6d3a;
+            --accent-hover: #ff8a60;
+            --accent-soft: rgba(255, 109, 58, 0.15);
+            --accent-glow: rgba(255, 109, 58, 0.3);
+            --green: #2ecc71;
+            --green-soft: rgba(46, 204, 113, 0.15);
+            --blue: #5dade2;
+            --blue-soft: rgba(93, 173, 226, 0.15);
+            --purple: #bb8fce;
+            --purple-soft: rgba(187, 143, 206, 0.15);
+            --orange: #f5b041;
+            --orange-soft: rgba(245, 176, 65, 0.15);
+            --red: #ec7063;
+            --red-soft: rgba(236, 112, 99, 0.15);
+            --gradient-hero: linear-gradient(135deg, #ff6d3a, #e64a19);
+            --gradient-card-1: linear-gradient(135deg, #ff6d3a, #e64a19);
+            --gradient-card-2: linear-gradient(135deg, #2ecc71, #1e8449);
+            --gradient-card-3: linear-gradient(135deg, #5dade2, #2e86c1);
+            --gradient-card-4: linear-gradient(135deg, #bb8fce, #7d3c98);
+            --nav-shadow: 0 -2px 24px rgba(0, 0, 0, 0.5);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 28px rgba(255, 109, 58, 0.35);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
+            overscroll-behavior: none;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            padding-bottom: calc(var(--nav-height) + var(--safe-bottom) + 16px);
+            transition: background-color var(--transition-smooth), color var(--transition-smooth);
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css');
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+
+        .app-header {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--bg-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid var(--border-color); transition: all var(--transition-smooth);
+            min-height: var(--header-height);
+        }
+        .header-brand { display: flex; align-items: center; gap: 10px; }
+        .header-logo {
+            width: 40px; height: 40px; border-radius: var(--radius-sm);
+            background: var(--gradient-hero); display: flex; align-items: center; justify-content: center;
+            font-size: 22px; color: white; flex-shrink: 0; box-shadow: var(--shadow-glow);
+        }
+        .header-title { font-size: 1.15rem; font-weight: 700; color: var(--text-primary); letter-spacing: -0.3px; }
+        .header-subtitle { font-size: 0.7rem; color: var(--text-tertiary); font-weight: 400; display: block; line-height: 1.2; }
+        .header-actions { display: flex; align-items: center; gap: 8px; }
+        .btn-icon {
+            width: 40px; height: 40px; border-radius: 50%; border: none;
+            background: var(--bg-tertiary); color: var(--text-primary); cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+            transition: all var(--transition-smooth); position: relative;
+        }
+        .btn-icon:active { transform: scale(0.92); background: var(--accent-soft); }
+        .btn-icon .badge {
+            position: absolute; top: 4px; right: 4px; width: 10px; height: 10px;
+            background: var(--accent); border-radius: 50%; border: 2px solid var(--bg-secondary);
+        }
+        .main-content { padding: 16px; max-width: 800px; margin: 0 auto; animation: fadeInUp 0.5s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+        .greeting-section { margin-bottom: 20px; }
+        .greeting-text { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); line-height: 1.3; }
+        .greeting-emoji { display: inline-block; animation: wave 0.8s ease infinite; animation-delay: 0.3s; }
+        @keyframes wave { 0%,100%{transform:rotate(0deg);} 25%{transform:rotate(15deg);} 75%{transform:rotate(-10deg);} }
+        .greeting-date { font-size: 0.85rem; color: var(--text-tertiary); margin-top: 2px; }
+
+        .streak-card {
+            background: var(--gradient-card-1); border-radius: var(--radius-lg); padding: 20px;
+            color: white; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between;
+            box-shadow: var(--shadow-glow); position: relative; overflow: hidden;
+        }
+        .streak-card::after { content:''; position:absolute; top:-30px; right:-30px; width:100px; height:100px; border-radius:50%; background:rgba(255,255,255,0.1); }
+        .streak-info h3 { font-size: 0.8rem; font-weight: 500; opacity: 0.9; letter-spacing: 0.5px; }
+        .streak-number { font-size: 3rem; font-weight: 900; line-height: 1; letter-spacing: -1px; }
+        .streak-label { font-size: 0.8rem; opacity: 0.85; }
+        .streak-fire { font-size: 3.5rem; animation: pulse 1.5s ease infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.15);} }
+
+        .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        @media (min-width:600px){ .cards-grid{grid-template-columns:1fr 1fr 1fr; gap:14px;} }
+        @media (min-width:768px){ .cards-grid{grid-template-columns:repeat(4,1fr); gap:16px;} .main-content{padding:20px 24px;} .greeting-text{font-size:1.8rem;} }
+
+        .stat-card {
+            background: var(--bg-card); border-radius: var(--radius-md); padding: 16px;
+            border: 1px solid var(--border-card); cursor: pointer; transition: all var(--transition-smooth);
+        }
+        .stat-card:active { transform: scale(0.96); background: var(--bg-card-hover); }
+        .stat-card .card-icon { width:42px; height:42px; border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; font-size:1.3rem; margin-bottom:10px; }
+        .card-icon.orange{background:var(--orange-soft);color:var(--orange);}
+        .card-icon.green{background:var(--green-soft);color:var(--green);}
+        .card-icon.blue{background:var(--blue-soft);color:var(--blue);}
+        .card-icon.purple{background:var(--purple-soft);color:var(--purple);}
+        .card-icon.red{background:var(--red-soft);color:var(--red);}
+        .stat-card .card-value { font-size:1.5rem; font-weight:800; color:var(--text-primary); letter-spacing:-0.5px; }
+        .stat-card .card-label { font-size:0.72rem; color:var(--text-tertiary); margin-top:2px; }
+        .stat-card .card-trend { font-size:0.7rem; margin-top:4px; font-weight:600; }
+        .trend-up{color:var(--green);} .trend-stable{color:var(--blue);}
+
+        .section-title { font-size:1rem; font-weight:700; color:var(--text-primary); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+        .section-title::before { content:''; width:4px; height:20px; background:var(--accent); border-radius:4px; }
+
+        .today-workout-card {
+            background: var(--bg-card); border-radius: var(--radius-lg); padding: 20px;
+            border: 1px solid var(--border-card); margin-bottom: 16px;
+        }
+        .workout-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+        .workout-badge { background:var(--accent-soft); color:var(--accent); padding:6px 14px; border-radius:20px; font-size:0.75rem; font-weight:700; }
+        .workout-status { font-size:0.78rem; color:var(--text-tertiary); }
+        .workout-exercise { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--border-color); font-size:0.85rem; }
+        .workout-exercise:last-child { border-bottom:none; }
+        .exercise-dot { width:8px; height:8px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+        .exercise-dot.done { background:var(--green); }
+
+        .btn-start-workout {
+            width:100%; padding:14px; border:none; border-radius:var(--radius-md);
+            background:var(--accent); color:white; font-size:0.95rem; font-weight:700;
+            cursor:pointer; margin-top:14px; font-family:var(--font-primary);
+            transition:all var(--transition-smooth); letter-spacing:-0.2px;
+        }
+        .btn-start-workout:active { transform:scale(0.96); opacity:0.9; }
+        .btn-start-workout:disabled { background:var(--bg-tertiary); color:var(--text-tertiary); cursor:not-allowed; opacity:0.7; }
+
+        .quick-actions { display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
+        .quick-action-btn {
+            flex:1; min-width:70px; padding:12px 10px; border-radius:var(--radius-md);
+            border:1px solid var(--border-card); background:var(--bg-card); color:var(--text-primary);
+            cursor:pointer; text-align:center; font-family:var(--font-primary); font-size:0.75rem;
+            font-weight:600; transition:all var(--transition-smooth); display:flex; flex-direction:column; align-items:center; gap:6px;
+        }
+        .quick-action-btn:active { background:var(--accent-soft); border-color:var(--accent); transform:scale(0.94); }
+        .quick-action-btn .qa-icon { font-size:1.4rem; }
+
+        .workout-session { padding: 16px; max-width: 600px; margin: 0 auto; }
+        .session-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+        .session-timer { font-size:1.8rem; font-weight:700; color:var(--accent); background:var(--accent-soft); padding:8px 16px; border-radius:var(--radius-md); font-family:monospace; }
+        .session-exercise { background:var(--bg-card); border-radius:var(--radius-md); padding:14px; margin-bottom:10px; border:1px solid var(--border-card); display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+        .session-exercise .ex-name { flex:1; font-size:0.85rem; font-weight:600; color:var(--text-primary); min-width:120px; }
+        .session-exercise .ex-input { width:80px; padding:8px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-tertiary); color:var(--text-primary); text-align:center; font-family:var(--font-primary); font-size:0.85rem; }
+        .session-exercise .ex-check { width:24px; height:24px; accent-color:var(--accent); cursor:pointer; }
+        .btn-finish-workout { width:100%; padding:16px; border:none; border-radius:var(--radius-md); background:var(--green); color:white; font-size:1rem; font-weight:700; margin-top:20px; cursor:pointer; font-family:var(--font-primary); transition:all var(--transition-smooth); }
+        .btn-finish-workout:active { transform:scale(0.96); }
+        .btn-cancel-workout { width:100%; padding:12px; border:1px solid var(--red); border-radius:var(--radius-md); background:transparent; color:var(--red); font-size:0.9rem; margin-top:10px; cursor:pointer; font-family:var(--font-primary); }
+
+        .timer-modal-overlay {
+            position: fixed; top:0; left:0; width:100%; height:100%; z-index:500;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: center;
+            opacity:0; pointer-events:none; transition: opacity var(--transition-smooth);
+        }
+        .timer-modal-overlay.open { opacity:1; pointer-events:auto; }
+        .timer-modal {
+            background: var(--bg-card); border-radius: var(--radius-lg); padding: 24px;
+            width: 90%; max-width: 380px; box-shadow: var(--shadow-lg); text-align: center;
+        }
+        .timer-display {
+            font-size: 4.5rem; font-weight: 900; font-family: monospace;
+            color: var(--accent); margin: 16px 0; letter-spacing: -2px;
+        }
+        .timer-presets { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 16px; }
+        .timer-preset-btn {
+            padding: 8px 12px; border-radius: 20px; border:1px solid var(--border-color);
+            background: var(--bg-tertiary); color: var(--text-primary); cursor:pointer;
+            font-family: var(--font-primary); font-size: 0.8rem; font-weight:600; transition: all var(--transition-smooth);
+        }
+        .timer-preset-btn:active { background: var(--accent); color: white; border-color: var(--accent); }
+        .timer-controls { display: flex; gap: 12px; justify-content: center; }
+        .timer-ctrl-btn {
+            width: 56px; height: 56px; border-radius: 50%; border: none;
+            font-size: 1.5rem; cursor: pointer; transition: all var(--transition-smooth);
+            background: var(--bg-tertiary); color: var(--text-primary);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .timer-ctrl-btn.start { background: var(--green); color: white; }
+        .timer-ctrl-btn.pause { background: var(--orange); color: white; }
+        .timer-ctrl-btn.reset { background: var(--red-soft); color: var(--red); }
+        .timer-close-btn {
+            margin-top: 16px; width:100%; padding:10px; border:1px solid var(--border-color);
+            border-radius: var(--radius-md); background: transparent; color: var(--text-primary);
+            font-family: var(--font-primary); cursor:pointer;
+        }
+        .timer-preset-btn.active-preset { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .calendar-container { background: var(--bg-card); border-radius: var(--radius-lg); padding: 16px; border: 1px solid var(--border-card); }
+        .calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .calendar-month { font-size: 1.1rem; font-weight: 700; }
+        .calendar-nav-btn { background: var(--bg-tertiary); border: none; border-radius: var(--radius-sm); padding: 8px 16px; cursor: pointer; font-family: var(--font-primary); color: var(--text-primary); font-weight: 600; }
+        .calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 0.7rem; color: var(--text-tertiary); margin-bottom: 8px; font-weight: 600; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .calendar-day {
+            aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+            border-radius: var(--radius-sm); font-size: 0.85rem; cursor: pointer;
+            position: relative; transition: all var(--transition-smooth);
+        }
+        .calendar-day:hover { background: var(--bg-tertiary); }
+        .calendar-day.today { border: 2px solid var(--accent); font-weight: 700; }
+        .calendar-day.workout-day::after {
+            content: ''; position: absolute; bottom: 6px; width: 6px; height: 6px;
+            background: var(--accent); border-radius: 50%;
+        }
+        .calendar-day.other-month { color: var(--text-tertiary); opacity: 0.4; }
+        .calendar-summary { display: flex; justify-content: space-around; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-color); }
+        .calendar-summary div { text-align: center; }
+        .calendar-summary .sum-value { font-size: 1.3rem; font-weight: 700; color: var(--accent); }
+        .calendar-summary .sum-label { font-size: 0.7rem; color: var(--text-tertiary); }
+        .day-detail { margin-top: 14px; padding: 12px; background: var(--bg-tertiary); border-radius: var(--radius-sm); font-size: 0.85rem; display: none; }
+        .day-detail.open { display: block; }
+
+        .progress-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+        .progress-tab {
+            padding: 8px 14px; border-radius: 20px; border: 1px solid var(--border-color);
+            background: var(--bg-tertiary); color: var(--text-primary); cursor: pointer;
+            font-family: var(--font-primary); font-size: 0.8rem; font-weight: 600;
+            transition: all var(--transition-smooth);
+        }
+        .progress-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+        .progress-chart-container { background: var(--bg-card); border-radius: var(--radius-md); padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-card); }
+        .progress-stats { display: flex; justify-content: space-around; margin-top: 8px; font-size: 0.8rem; }
+        .progress-stat { text-align: center; }
+        .progress-stat-value { font-weight: 700; color: var(--accent); }
+        .progress-form { background: var(--bg-card); border-radius: var(--radius-md); padding: 16px; border: 1px solid var(--border-card); }
+        .progress-form label { display: block; margin-bottom: 8px; font-size: 0.8rem; color: var(--text-secondary); }
+        .progress-form input { width: 100%; padding: 8px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-tertiary); color: var(--text-primary); font-family: var(--font-primary); }
+
+        .health-card { background: var(--bg-card); border-radius: var(--radius-md); padding: 16px; border: 1px solid var(--border-card); margin-bottom: 12px; }
+        .health-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+        .health-card-title { font-weight: 700; font-size: 0.9rem; }
+        .health-card-value { font-size: 1.6rem; font-weight: 800; color: var(--accent); }
+        .health-card-controls { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
+        .health-btn {
+            width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border-color);
+            background: var(--bg-tertiary); color: var(--text-primary); font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+        }
+        .health-btn:active { background: var(--accent-soft); }
+        .health-input { width: 80px; padding: 6px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-tertiary); color: var(--text-primary); text-align: center; font-family: var(--font-primary); }
+        .health-chart { margin-top: 12px; background: var(--bg-tertiary); border-radius: var(--radius-sm); padding: 8px; }
+        .meals-list { margin-top: 8px; }
+        .meal-item { padding: 6px 0; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; }
+        .btn-add-meal { margin-top: 8px; padding: 8px 14px; border-radius: 20px; border: 1px solid var(--accent); background: var(--accent-soft); color: var(--accent); font-family: var(--font-primary); cursor: pointer; }
+
+        .bottom-nav {
+            position:fixed; bottom:0; left:0; right:0; z-index:200;
+            background:var(--bg-nav); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+            border-top:1px solid var(--border-color); display:flex; align-items:center; justify-content:space-around;
+            padding:6px 4px var(--safe-bottom); box-shadow:var(--nav-shadow); height:var(--nav-height);
+        }
+        .nav-item {
+            display:flex; flex-direction:column; align-items:center; gap:2px; cursor:pointer;
+            padding:4px 6px; border-radius:var(--radius-md); transition:all var(--transition-smooth);
+            background:transparent; border:none; color:var(--text-tertiary); font-family:var(--font-primary);
+            font-size:0.6rem; font-weight:500; min-width:48px;
+        }
+        .nav-item.active { color:var(--accent); font-weight:700; }
+        .nav-item.active::before { content:''; position:absolute; top:-5px; width:18px; height:3px; background:var(--accent); border-radius:0 0 3px 3px; }
+        .nav-item .nav-icon { font-size:1.3rem; transition:all var(--transition-smooth); }
+        .nav-item:active .nav-icon { transform:scale(0.85); }
+
+        .install-banner {
+            position:fixed; top:16px; left:50%; transform:translateX(-50%); z-index:300;
+            background:var(--bg-card); border:1px solid var(--border-color); border-radius:var(--radius-lg);
+            padding:14px 20px; display:flex; align-items:center; gap:12px; box-shadow:var(--shadow-lg);
+            animation:slideDown 0.4s ease; max-width:90vw; width:380px;
+        }
+        .install-banner.hidden { display:none; }
+        @keyframes slideDown { from{transform:translateX(-50%) translateY(-80px);opacity:0;} to{transform:translateX(-50%) translateY(0);opacity:1;} }
+        .btn-install { padding:8px 16px; border-radius:var(--radius-sm); border:none; background:var(--accent); color:white; font-weight:700; cursor:pointer; font-family:var(--font-primary); }
+        .btn-install-dismiss { background:transparent; border:none; color:var(--text-tertiary); cursor:pointer; font-size:1.2rem; }
+
+        .toast {
+            position:fixed; bottom:calc(var(--nav-height) + 20px); left:50%; transform:translateX(-50%) translateY(100px);
+            background:var(--bg-card); color:var(--text-primary); padding:12px 20px; border-radius:25px;
+            font-size:0.8rem; font-weight:600; z-index:400; border:1px solid var(--border-color);
+            box-shadow:var(--shadow-md); transition:transform var(--transition-bounce); white-space:nowrap;
+        }
+        .toast.show { transform:translateX(-50%) translateY(0); }
+        .toast.success { border-color:var(--green); color:var(--green); }
+
+        .page-section { display:none; animation:fadeInUp 0.4s ease; }
+        .page-section.active { display:block; }
+
+        .settings-group { background:var(--bg-card); border-radius:var(--radius-lg); border:1px solid var(--border-card); padding:16px; margin-bottom:14px; }
+        .settings-group h3 { font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px; }
+        .setting-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border-color); }
+        .setting-row:last-child { border-bottom:none; }
+        .setting-label { font-size:0.85rem; font-weight:500; color:var(--text-primary); }
+        .toggle-switch { position:relative; width:52px; height:28px; flex-shrink:0; }
+        .toggle-switch input { opacity:0; width:0; height:0; }
+        .toggle-slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background:var(--bg-tertiary); border-radius:28px; transition:var(--transition-smooth); border:1px solid var(--border-color); }
+        .toggle-slider::before { content:''; position:absolute; height:22px; width:22px; left:2px; bottom:2px; background:white; border-radius:50%; transition:var(--transition-smooth); box-shadow:var(--shadow-sm); }
+        input:checked+.toggle-slider { background:var(--accent); }
+        input:checked+.toggle-slider::before { transform:translateX(24px); }
+        .reminder-time-input { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-tertiary); color: var(--text-primary); font-family: var(--font-primary); width: 90px; text-align: center; }
+
+        /* Report print styles */
+        @media print {
+            body { background: white; color: black; font-size: 14px; }
+            .app-header, .bottom-nav, .install-banner, .toast, .btn-icon { display: none; }
+            .main-content { padding: 20px; max-width: 100%; }
+            .cards-grid, .health-card, .progress-chart-container, .calendar-container { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <header class="app-header">
+        <div class="header-brand">
+            <div class="header-logo">💪</div>
+            <div><span class="header-title">فیت‌پلاس</span><span class="header-subtitle">کالیستنیکس حرفه‌ای</span></div>
+        </div>
+        <div class="header-actions">
+            <button class="btn-icon" id="btnNotifications" title="اعلان‌ها">🔔<span class="badge" id="notifBadge" style="display:none;"></span></button>
+            <button class="btn-icon" id="btnThemeToggle"><span id="themeIcon">🌙</span></button>
+        </div>
+    </header>
+
+    <div class="install-banner hidden" id="installBanner">
+        <span style="font-size:1.5rem;">📲</span>
+        <span class="install-text">نصب اپلیکیشن روی گوشی</span>
+        <button class="btn-install" id="btnInstall">نصب</button>
+        <button class="btn-install-dismiss" id="btnDismissInstall">✕</button>
+    </div>
+
+    <div class="timer-modal-overlay" id="timerOverlay">
+        <div class="timer-modal">
+            <h3>⏱️ تایمر</h3>
+            <div class="timer-display" id="timerDisplay">00:00</div>
+            <div class="timer-presets" id="timerPresets">
+                <button class="timer-preset-btn" data-seconds="300">گرم کردن ۵دقیقه</button>
+                <button class="timer-preset-btn active-preset" data-seconds="90">استراحت ۹۰ثانیه</button>
+                <button class="timer-preset-btn" data-seconds="45">پلانک ۴۵ثانیه</button>
+                <button class="timer-preset-btn custom" data-seconds="0">دلخواه</button>
+            </div>
+            <div class="timer-controls">
+                <button class="timer-ctrl-btn start" id="btnTimerStart">▶</button>
+                <button class="timer-ctrl-btn pause" id="btnTimerPause">⏸️</button>
+                <button class="timer-ctrl-btn reset" id="btnTimerReset">↺</button>
+            </div>
+            <input type="number" id="customTimerInput" placeholder="ثانیه" style="width:100%; margin-top:8px; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-tertiary); color:var(--text-primary); text-align:center; display:none;">
+            <button class="timer-close-btn" id="btnTimerClose">بستن</button>
+        </div>
+    </div>
+
+    <main class="main-content" id="mainContent">
+        <!-- Dashboard -->
+        <section class="page-section active" id="page-dashboard">
+            <div class="greeting-section">
+                <div class="greeting-text"><span class="greeting-emoji" id="greetingEmoji">👋</span> <span id="greetingText">سلام، قهرمان!</span></div>
+                <div class="greeting-date" id="greetingDate"></div>
+            </div>
+            <div class="streak-card">
+                <div class="streak-info"><h3>🔥 روز پیاپی</h3><div class="streak-number" id="streakCount">0</div><div class="streak-label">تمرین مداوم</div></div>
+                <div class="streak-fire">🔥</div>
+            </div>
+            <div class="cards-grid">
+                <div class="stat-card" id="cardWorkouts"><div class="card-icon orange">🏋️</div><div class="card-value" id="totalWorkouts">0</div><div class="card-label">جلسه تمرین</div></div>
+                <div class="stat-card" id="cardWater"><div class="card-icon blue">💧</div><div class="card-value" id="waterGlasses">0</div><div class="card-label">لیوان آب امروز</div></div>
+                <div class="stat-card" id="cardWeight"><div class="card-icon green">⚖️</div><div class="card-value" id="currentWeight">--</div><div class="card-label">وزن (کیلوگرم)</div></div>
+                <div class="stat-card" id="cardPlank"><div class="card-icon purple">⏱️</div><div class="card-value" id="bestPlank">0s</div><div class="card-label">رکورد پلانک</div></div>
+                <div class="stat-card" id="cardStats"><div class="card-icon orange">📊</div><div class="card-value" id="advancedStats">--</div><div class="card-label">آمار پیشرفته</div></div>
+            </div>
+            <div class="quick-actions">
+                <button class="quick-action-btn" id="quickWater"><span class="qa-icon">💧</span> آب خوردم</button>
+                <button class="quick-action-btn" id="quickWorkout"><span class="qa-icon">🏋️</span> شروع تمرین</button>
+                <button class="quick-action-btn" id="quickWeight"><span class="qa-icon">⚖️</span> ثبت وزن</button>
+                <button class="quick-action-btn" id="quickTimer"><span class="qa-icon">⏱️</span> تایمرها</button>
+            </div>
+            <div class="section-title">📋 برنامه امروز (با پیشرفت خودکار)</div>
+            <div class="today-workout-card" id="todayWorkoutCard">
+                <div class="workout-header"><span class="workout-badge" id="workoutBadge">برنامه A</span><span class="workout-status" id="workoutStatus">در انتظار انجام</span></div>
+                <div id="workoutExerciseList"></div>
+                <button class="btn-start-workout" id="btnStartWorkout">▶ شروع تمرین امروز</button>
+            </div>
+        </section>
+
+        <!-- Workout List -->
+        <section class="page-section" id="page-workout">
+            <div class="section-title">💪 برنامه‌های تمرینی</div>
+            <div style="background:var(--bg-card);border-radius:var(--radius-lg);padding:20px;border:1px solid var(--border-card);margin-bottom:14px;">
+                <h3>برنامه A - بالاتنه</h3><div id="workoutAExercises"></div>
+            </div>
+            <div style="background:var(--bg-card);border-radius:var(--radius-lg);padding:20px;border:1px solid var(--border-card);">
+                <h3>برنامه B - پایین‌تنه</h3><div id="workoutBExercises"></div>
+            </div>
+        </section>
+
+        <!-- Workout Session -->
+        <section class="page-section" id="page-workout-session">
+            <div class="workout-session">
+                <div class="session-header">
+                    <h2 id="sessionTitle">جلسه تمرین</h2>
+                    <div class="session-timer" id="sessionTimer">00:00</div>
+                </div>
+                <div id="sessionExercises"></div>
+                <button class="btn-finish-workout" id="btnFinishWorkout">✅ پایان تمرین و ثبت</button>
+                <button class="btn-cancel-workout" id="btnCancelWorkout">لغو جلسه</button>
+            </div>
+        </section>
+
+        <!-- Calendar -->
+        <section class="page-section" id="page-calendar">
+            <div class="section-title">📅 تقویم تمرینی</div>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button class="calendar-nav-btn" id="calPrev">◀ ماه قبل</button>
+                    <span class="calendar-month" id="calMonthTitle"></span>
+                    <button class="calendar-nav-btn" id="calNext">ماه بعد ▶</button>
+                </div>
+                <div class="calendar-weekdays">
+                    <div>ش</div><div>ی</div><div>د</div><div>س</div><div>چ</div><div>پ</div><div>ج</div>
+                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
+                <div class="calendar-summary">
+                    <div><div class="sum-value" id="calSessions">0</div><div class="sum-label">جلسه</div></div>
+                    <div><div class="sum-value" id="calMinutes">0</div><div class="sum-label">دقیقه</div></div>
+                </div>
+                <div class="day-detail" id="dayDetail"></div>
+            </div>
+        </section>
+
+        <!-- Progress -->
+        <section class="page-section" id="page-progress">
+            <div class="section-title">📈 پیشرفت</div>
+            <div class="progress-tabs" id="progressTabs">
+                <button class="progress-tab active" data-metric="weight">وزن</button>
+                <button class="progress-tab" data-metric="waist">دور شکم</button>
+                <button class="progress-tab" data-metric="pushups">شنا</button>
+                <button class="progress-tab" data-metric="squats">اسکوات</button>
+                <button class="progress-tab" data-metric="dips">دیپ</button>
+                <button class="progress-tab" data-metric="plankSeconds">پلانک</button>
+            </div>
+            <div class="progress-chart-container">
+                <svg id="progressChart" width="100%" height="200" viewBox="0 0 300 200" preserveAspectRatio="none"></svg>
+                <div class="progress-stats" id="progressStats"></div>
+                <div id="goalProgress" style="margin-top: 8px; font-size:0.85rem;"></div>
+            </div>
+            <div class="progress-form">
+                <h4>ثبت رکورد جدید</h4>
+                <label>تاریخ</label>
+                <input type="date" id="progressDate">
+                <label>وزن (کیلوگرم)</label>
+                <input type="number" id="progressWeight" placeholder="اختیاری">
+                <label>دور شکم (سانتی‌متر)</label>
+                <input type="number" id="progressWaist" placeholder="اختیاری">
+                <label>تعداد شنا</label>
+                <input type="number" id="progressPushups" placeholder="اختیاری">
+                <label>تعداد اسکوات</label>
+                <input type="number" id="progressSquats" placeholder="اختیاری">
+                <label>تعداد دیپ</label>
+                <input type="number" id="progressDips" placeholder="اختیاری">
+                <label>زمان پلانک (ثانیه)</label>
+                <input type="number" id="progressPlank" placeholder="اختیاری">
+                <button id="btnSaveProgress" style="width:100%; padding:12px; border:none; border-radius:8px; background:var(--accent); color:white; font-weight:700; margin-top:8px;">ذخیره رکورد</button>
+            </div>
+        </section>
+
+        <!-- Health -->
+        <section class="page-section" id="page-health">
+            <div class="section-title">🩺 سلامتی</div>
+
+            <div class="health-card" id="waterCard">
+                <div class="health-card-header">
+                    <span class="health-card-title">💧 آب مصرفی</span>
+                    <span class="health-card-value" id="healthWaterVal">0</span>
+                </div>
+                <div class="health-card-controls">
+                    <button class="health-btn" id="waterMinus">−</button>
+                    <input type="number" class="health-input" id="waterInput" value="0" min="0">
+                    <button class="health-btn" id="waterPlus">+</button>
+                    <span style="font-size:0.8rem;">لیوان</span>
+                </div>
+                <div class="health-chart" id="waterChart"></div>
+            </div>
+
+            <div class="health-card" id="sleepCard">
+                <div class="health-card-header">
+                    <span class="health-card-title">😴 خواب</span>
+                    <span class="health-card-value" id="healthSleepVal">0</span>
+                </div>
+                <div class="health-card-controls">
+                    <button class="health-btn" id="sleepMinus">−</button>
+                    <input type="number" class="health-input" id="sleepInput" value="0" min="0" step="0.5">
+                    <button class="health-btn" id="sleepPlus">+</button>
+                    <span style="font-size:0.8rem;">ساعت</span>
+                </div>
+                <div class="health-chart" id="sleepChart"></div>
+            </div>
+
+            <div class="health-card" id="proteinCard">
+                <div class="health-card-header">
+                    <span class="health-card-title">🥚 پروتئین</span>
+                    <span class="health-card-value" id="healthProteinVal">0</span>
+                </div>
+                <div class="health-card-controls">
+                    <button class="health-btn" id="proteinMinus">−</button>
+                    <input type="number" class="health-input" id="proteinInput" value="0" min="0">
+                    <button class="health-btn" id="proteinPlus">+</button>
+                    <span style="font-size:0.8rem;">گرم</span>
+                </div>
+                <div class="health-chart" id="proteinChart"></div>
+            </div>
+
+            <div class="health-card" id="mealsCard">
+                <div class="health-card-header">
+                    <span class="health-card-title">🍽️ وعده‌های غذایی امروز</span>
+                </div>
+                <div class="meals-list" id="mealsList"></div>
+                <div style="display:flex; gap:8px; margin-top:8px;">
+                    <input type="text" class="health-input" id="mealInput" placeholder="شرح وعده" style="flex:1;">
+                    <button class="btn-add-meal" id="btnAddMeal">+ افزودن</button>
+                </div>
+            </div>
+
+            <div class="health-card">
+                <div class="health-card-header"><span class="health-card-title">📊 گزارش هفتگی</span></div>
+                <div id="weeklyReport" style="font-size:0.85rem;"></div>
+            </div>
+        </section>
+
+        <!-- Settings (with Reminders, Goals, Reports) -->
+        <section class="page-section" id="page-settings">
+            <div class="section-title">⚙️ تنظیمات</div>
+            <div class="settings-group"><h3>ظاهر</h3><div class="setting-row"><span class="setting-label">حالت تاریک</span><label class="toggle-switch"><input type="checkbox" id="darkModeToggle" checked><span class="toggle-slider"></span></label></div></div>
+            <div class="settings-group"><h3>اطلاعات شخصی</h3><div class="setting-row"><span class="setting-label">نام</span><input type="text" id="userNameInput" placeholder="نام شما" style="border:1px solid var(--border-color);border-radius:8px;padding:6px 10px;background:var(--bg-tertiary);color:var(--text-primary);width:140px;text-align:center;"></div></div>
+
+            <div class="settings-group"><h3>🎯 اهداف</h3>
+                <div class="setting-row"><span class="setting-label">هدف وزن (کیلوگرم)</span><input type="number" id="goalWeight" class="reminder-time-input" placeholder="مثلاً ۷۵"></div>
+                <div class="setting-row"><span class="setting-label">هدف شنا (تعداد)</span><input type="number" id="goalPushups" class="reminder-time-input" placeholder="مثلاً ۵۰"></div>
+                <div class="setting-row"><span class="setting-label">هدف اسکوات (تعداد)</span><input type="number" id="goalSquats" class="reminder-time-input" placeholder="مثلاً ۱۰۰"></div>
+                <div class="setting-row"><span class="setting-label">هدف دیپ (تعداد)</span><input type="number" id="goalDips" class="reminder-time-input" placeholder="مثلاً ۳۰"></div>
+                <div class="setting-row"><span class="setting-label">هدف پلانک (ثانیه)</span><input type="number" id="goalPlank" class="reminder-time-input" placeholder="مثلاً ۱۲۰"></div>
+                <button id="btnSaveGoals" style="margin-top:8px; padding:10px; width:100%; border-radius:8px; background:var(--accent); color:white; border:none; font-weight:700;">ذخیره اهداف</button>
+            </div>
+
+            <div class="settings-group"><h3>🔔 یادآورها</h3>
+                <div class="setting-row">
+                    <span class="setting-label">یادآوری تمرین</span>
+                    <label class="toggle-switch"><input type="checkbox" id="reminderWorkoutToggle"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="setting-row" id="reminderWorkoutTimeRow" style="display:none;">
+                    <span class="setting-label">ساعت تمرین</span>
+                    <input type="time" id="reminderWorkoutTime" class="reminder-time-input" value="07:00">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">یادآوری آب خوردن</span>
+                    <label class="toggle-switch"><input type="checkbox" id="reminderWaterToggle"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="setting-row" id="reminderWaterIntervalRow" style="display:none;">
+                    <span class="setting-label">فاصله (دقیقه)</span>
+                    <input type="number" id="reminderWaterInterval" class="reminder-time-input" value="60" min="15" max="240">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">یادآوری خواب</span>
+                    <label class="toggle-switch"><input type="checkbox" id="reminderSleepToggle"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="setting-row" id="reminderSleepTimeRow" style="display:none;">
+                    <span class="setting-label">ساعت خواب</span>
+                    <input type="time" id="reminderSleepTime" class="reminder-time-input" value="23:00">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">تست اعلان</span>
+                    <button id="btnTestNotification" style="padding:8px 14px; border-radius:8px; border:1px solid var(--accent); background:var(--accent-soft); color:var(--accent); cursor:pointer; font-family:var(--font-primary);">ارسال تست</button>
+                </div>
+            </div>
+
+            <div class="settings-group"><h3>📄 گزارش‌ها</h3>
+                <div class="setting-row">
+                    <span class="setting-label">خروجی PDF (چاپ)</span>
+                    <button id="btnPrintReport" style="padding:8px 14px;border-radius:8px;border:1px solid var(--accent);background:var(--accent-soft);color:var(--accent);">چاپ</button>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">خروجی Excel</span>
+                    <button id="btnExportExcel" style="padding:8px 14px;border-radius:8px;border:1px solid var(--green);background:var(--green-soft);color:var(--green);">CSV</button>
+                </div>
+            </div>
+
+            <div class="settings-group"><h3>داده‌ها</h3>
+                <div class="setting-row"><span class="setting-label">پشتیبان‌گیری</span><button id="btnExport" style="padding:8px 14px;border-radius:8px;border:1px solid var(--accent);background:var(--accent-soft);color:var(--accent);">خروجی</button></div>
+                <div class="setting-row"><span class="setting-label">بازیابی</span><button id="btnImport" style="padding:8px 14px;border-radius:8px;border:1px solid var(--blue);background:var(--blue-soft);color:var(--blue);">ورودی</button></div>
+                <div class="setting-row"><span class="setting-label">بازنشانی</span><button id="btnReset" style="padding:8px 14px;border-radius:8px;border:1px solid var(--red);background:var(--red-soft);color:var(--red);">ریست</button></div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav" id="bottomNav">
+        <button class="nav-item active" data-page="dashboard"><span class="nav-icon">🏠</span><span>داشبورد</span></button>
+        <button class="nav-item" data-page="workout"><span class="nav-icon">💪</span><span>تمرین</span></button>
+        <button class="nav-item" data-page="calendar"><span class="nav-icon">📅</span><span>تقویم</span></button>
+        <button class="nav-item" data-page="progress"><span class="nav-icon">📈</span><span>پیشرفت</span></button>
+        <button class="nav-item" data-page="health"><span class="nav-icon">❤️</span><span>سلامتی</span></button>
+        <button class="nav-item" data-page="settings"><span class="nav-icon">⚙️</span><span>تنظیمات</span></button>
+    </nav>
+
+    <div class="toast" id="toast"></div>
+    <input type="file" id="importFileInput" accept=".json" style="display:none;">
+
+    <script>
+        (function() {
+            const $ = (sel) => document.querySelector(sel);
+            const $$ = (sel) => document.querySelectorAll(sel);
+            const body = document.body;
+            const mainContent = $('#mainContent');
+            const installBanner = $('#installBanner');
+            const btnInstall = $('#btnInstall');
+            const btnDismissInstall = $('#btnDismissInstall');
+            const btnThemeToggle = $('#btnThemeToggle');
+            const themeIcon = $('#themeIcon');
+            const darkModeToggle = $('#darkModeToggle');
+            const toast = $('#toast');
+            const navItems = $$('.nav-item');
+            const pageSections = $$('.page-section');
+            const greetingText = $('#greetingText');
+            const greetingEmoji = $('#greetingEmoji');
+            const greetingDate = $('#greetingDate');
+            const streakCount = $('#streakCount');
+            const totalWorkouts = $('#totalWorkouts');
+            const waterGlasses = $('#waterGlasses');
+            const currentWeight = $('#currentWeight');
+            const bestPlank = $('#bestPlank');
+            const advancedStats = $('#advancedStats');
+            const workoutBadge = $('#workoutBadge');
+            const workoutStatus = $('#workoutStatus');
+            const workoutExerciseList = $('#workoutExerciseList');
+            const userNameInput = $('#userNameInput');
+            const notifBadge = $('#notifBadge');
+            const importFileInput = $('#importFileInput');
+            const btnStartWorkout = $('#btnStartWorkout');
+            const sessionTitle = $('#sessionTitle');
+            const sessionTimer = $('#sessionTimer');
+            const sessionExercises = $('#sessionExercises');
+            const btnFinishWorkout = $('#btnFinishWorkout');
+            const btnCancelWorkout = $('#btnCancelWorkout');
+
+            const timerOverlay = $('#timerOverlay');
+            const timerDisplay = $('#timerDisplay');
+            const btnTimerStart = $('#btnTimerStart');
+            const btnTimerPause = $('#btnTimerPause');
+            const btnTimerReset = $('#btnTimerReset');
+            const btnTimerClose = $('#btnTimerClose');
+            const customTimerInput = $('#customTimerInput');
+            const timerPresets = $('#timerPresets');
+            const quickTimer = $('#quickTimer');
+
+            const calendarGrid = $('#calendarGrid');
+            const calMonthTitle = $('#calMonthTitle');
+            const calPrev = $('#calPrev');
+            const calNext = $('#calNext');
+            const calSessions = $('#calSessions');
+            const calMinutes = $('#calMinutes');
+            const dayDetail = $('#dayDetail');
+
+            const progressTabs = $('#progressTabs');
+            const progressChart = $('#progressChart');
+            const progressStats = $('#progressStats');
+            const goalProgressDiv = $('#goalProgress');
+            const btnSaveProgress = $('#btnSaveProgress');
+            const progressDate = $('#progressDate');
+            const progressWeight = $('#progressWeight');
+            const progressWaist = $('#progressWaist');
+            const progressPushups = $('#progressPushups');
+            const progressSquats = $('#progressSquats');
+            const progressDips = $('#progressDips');
+            const progressPlank = $('#progressPlank');
+
+            const healthWaterVal = $('#healthWaterVal');
+            const waterInput = $('#waterInput');
+            const waterChartDiv = $('#waterChart');
+            const healthSleepVal = $('#healthSleepVal');
+            const sleepInput = $('#sleepInput');
+            const sleepChartDiv = $('#sleepChart');
+            const healthProteinVal = $('#healthProteinVal');
+            const proteinInput = $('#proteinInput');
+            const proteinChartDiv = $('#proteinChart');
+            const mealsList = $('#mealsList');
+            const mealInput = $('#mealInput');
+            const btnAddMeal = $('#btnAddMeal');
+            const weeklyReportDiv = $('#weeklyReport');
+
+            const reminderWorkoutToggle = $('#reminderWorkoutToggle');
+            const reminderWorkoutTime = $('#reminderWorkoutTime');
+            const reminderWaterToggle = $('#reminderWaterToggle');
+            const reminderWaterInterval = $('#reminderWaterInterval');
+            const reminderSleepToggle = $('#reminderSleepToggle');
+            const reminderSleepTime = $('#reminderSleepTime');
+            const btnTestNotification = $('#btnTestNotification');
+            const reminderWorkoutTimeRow = $('#reminderWorkoutTimeRow');
+            const reminderWaterIntervalRow = $('#reminderWaterIntervalRow');
+            const reminderSleepTimeRow = $('#reminderSleepTimeRow');
+
+            // Goals & report buttons
+            const goalWeight = $('#goalWeight');
+            const goalPushups = $('#goalPushups');
+            const goalSquats = $('#goalSquats');
+            const goalDips = $('#goalDips');
+            const goalPlank = $('#goalPlank');
+            const btnSaveGoals = $('#btnSaveGoals');
+            const btnPrintReport = $('#btnPrintReport');
+            const btnExportExcel = $('#btnExportExcel');
+
+            const APP_KEY = 'fitness_app_data';
+            let appData = {
+                settings: {
+                    theme: 'dark',
+                    userName: '',
+                    lastActiveDate: '',
+                    reminders: { workout: { enabled: false, time: '07:00' }, water: { enabled: false, interval: 60 }, sleep: { enabled: false, time: '23:00' }, lastNotified: {} },
+                    goals: { weight: null, pushups: null, squats: null, dips: null, plankSeconds: null }
+                },
+                workouts: [],
+                healthLogs: [],
+                progressLogs: [],
+                streak: 0,
+                lastWorkoutDate: null,
+            };
+            let deferredPrompt = null;
+            let currentPage = 'dashboard';
+            let toastTimeout = null;
+            let workoutSession = null;
+            let sessionInterval = null;
+
+            let timerInterval = null;
+            let timerSeconds = 0;
+            let timerRunning = false;
+
+            let calYear, calMonth;
+            let currentMetric = 'weight';
+            let reminderCheckInterval = null;
+
+            function init() {
+                loadData();
+                applyTheme(appData.settings.theme);
+                updateThemeUI();
+                setupNavigation();
+                setupEventListeners();
+                updateDashboard();
+                updateGreeting();
+                renderWorkoutPrograms();
+                setupPWA();
+                updateAllStats();
+                setInterval(updateGreeting, 60000);
+                checkNewDay();
+                const now = new Date();
+                const persianDate = toPersianDate(now);
+                calYear = persianDate.year;
+                calMonth = persianDate.month;
+                if (currentPage === 'calendar') renderCalendar();
+                if (currentPage === 'progress') renderProgressChart();
+                if (currentPage === 'health') renderHealthPage();
+                if (progressDate) progressDate.value = new Date().toISOString().slice(0,10);
+                loadReminderSettings();
+                loadGoalSettings();
+                startReminderChecker();
+            }
+
+            function loadData() {
+                try {
+                    const raw = localStorage.getItem(APP_KEY);
+                    if (raw) {
+                        const parsed = JSON.parse(raw);
+                        appData = deepMerge(appData, parsed);
+                    }
+                } catch (e) { console.warn('بارگذاری داده‌ها:', e); }
+                appData.settings = appData.settings || {};
+                appData.settings.reminders = appData.settings.reminders || { workout: { enabled: false, time: '07:00' }, water: { enabled: false, interval: 60 }, sleep: { enabled: false, time: '23:00' }, lastNotified: {} };
+                appData.settings.goals = appData.settings.goals || { weight: null, pushups: null, squats: null, dips: null, plankSeconds: null };
+                appData.workouts = appData.workouts || [];
+                appData.healthLogs = appData.healthLogs || [];
+                appData.progressLogs = appData.progressLogs || [];
+                appData.streak = appData.streak || 0;
+            }
+
+            function saveData() {
+                try { localStorage.setItem(APP_KEY, JSON.stringify(appData)); } catch (e) { showToast('فضای ذخیره‌سازی پر است!', false); }
+            }
+
+            function deepMerge(target, source) {
+                const output = { ...target };
+                for (const key in source) {
+                    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) output[key] = deepMerge(target[key] || {}, source[key]);
+                    else output[key] = source[key];
+                }
+                return output;
+            }
+
+            function applyTheme(theme) {
+                body.setAttribute('data-theme', theme);
+                appData.settings.theme = theme;
+                const meta = document.querySelector('meta[name="theme-color"]');
+                if (meta) meta.content = theme === 'dark' ? '#121212' : '#f5f5f7';
+                saveData();
+            }
+
+            function toggleTheme() {
+                const newTheme = appData.settings.theme === 'dark' ? 'light' : 'dark';
+                applyTheme(newTheme);
+                updateThemeUI();
+                showToast(newTheme === 'dark' ? '🌙 حالت تاریک' : '☀️ حالت روشن', true);
+            }
+
+            function updateThemeUI() {
+                const isDark = appData.settings.theme === 'dark';
+                themeIcon.textContent = isDark ? '🌙' : '☀️';
+                if (darkModeToggle) darkModeToggle.checked = isDark;
+            }
+
+            function setupNavigation() {
+                navItems.forEach(item => item.addEventListener('click', function() {
+                    const page = this.getAttribute('data-page');
+                    if (workoutSession) { showToast('ابتدا جلسه تمرین را تمام کنید', false); return; }
+                    navigateTo(page);
+                }));
+            }
+
+            function navigateTo(page) {
+                currentPage = page;
+                navItems.forEach(item => item.classList.toggle('active', item.getAttribute('data-page') === page));
+                pageSections.forEach(s => s.classList.toggle('active', s.id === `page-${page}`));
+                if (page === 'dashboard') { updateDashboard(); updateWorkoutPreview(); }
+                if (page === 'workout') renderWorkoutPrograms();
+                if (page === 'calendar') renderCalendar();
+                if (page === 'progress') renderProgressChart();
+                if (page === 'health') renderHealthPage();
+                if (page === 'settings') { loadReminderSettings(); loadGoalSettings(); }
+                mainContent.scrollTop = 0;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                sessionStorage.setItem('lastPage', page);
+            }
+
+            function setupEventListeners() {
+                btnThemeToggle.addEventListener('click', toggleTheme);
+                darkModeToggle.addEventListener('change', function() { applyTheme(this.checked ? 'dark' : 'light'); updateThemeUI(); });
+                btnInstall.addEventListener('click', async () => { if (deferredPrompt) { deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; } installBanner.classList.add('hidden'); });
+                btnDismissInstall.addEventListener('click', () => { installBanner.classList.add('hidden'); localStorage.setItem('installDismissed', 'true'); });
+                $('#quickWater').addEventListener('click', () => { quickAddWater(); if (currentPage === 'health') renderHealthPage(); });
+                $('#quickWorkout').addEventListener('click', () => { if (!workoutSession) startWorkoutSession(); else showToast('جلسه در حال انجام است', false); });
+                $('#quickWeight').addEventListener('click', quickAddWeight);
+                quickTimer.addEventListener('click', openTimerModal);
+                btnStartWorkout.addEventListener('click', startWorkoutSession);
+                btnFinishWorkout.addEventListener('click', finishWorkoutSession);
+                btnCancelWorkout.addEventListener('click', cancelWorkoutSession);
+                $('#btnExport').addEventListener('click', exportData);
+                $('#btnImport').addEventListener('click', () => importFileInput.click());
+                $('#btnReset').addEventListener('click', resetAllData);
+                importFileInput.addEventListener('change', function() { if (this.files[0]) importData(this.files[0]); this.value = ''; });
+                userNameInput.addEventListener('input', function() { appData.settings.userName = this.value.trim(); saveData(); updateGreeting(); });
+                userNameInput.value = appData.settings.userName || '';
+                $('#btnNotifications').addEventListener('click', requestNotificationPermission);
+                updateNotifBadge();
+                $('#cardWorkouts').addEventListener('click', () => navigateTo('calendar'));
+                $('#cardWater').addEventListener('click', () => navigateTo('health'));
+                $('#cardWeight').addEventListener('click', () => navigateTo('progress'));
+                $('#cardPlank').addEventListener('click', () => navigateTo('progress'));
+
+                btnTimerClose.addEventListener('click', closeTimerModal);
+                btnTimerStart.addEventListener('click', startTimer);
+                btnTimerPause.addEventListener('click', pauseTimer);
+                btnTimerReset.addEventListener('click', resetTimer);
+                timerPresets.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('timer-preset-btn')) {
+                        const sec = parseInt(e.target.dataset.seconds);
+                        if (sec > 0) {
+                            setTimer(sec);
+                            $$('.timer-preset-btn').forEach(b => b.classList.remove('active-preset'));
+                            e.target.classList.add('active-preset');
+                            customTimerInput.style.display = 'none';
+                        } else if (e.target.classList.contains('custom')) {
+                            customTimerInput.style.display = 'block';
+                            customTimerInput.focus();
+                            $$('.timer-preset-btn').forEach(b => b.classList.remove('active-preset'));
+                            e.target.classList.add('active-preset');
+                        }
+                    }
+                });
+                customTimerInput.addEventListener('change', function() {
+                    const sec = parseInt(this.value);
+                    if (sec > 0) setTimer(sec);
+                });
+
+                calPrev.addEventListener('click', () => { calMonth--; if (calMonth < 1) { calMonth = 12; calYear--; } renderCalendar(); });
+                calNext.addEventListener('click', () => { calMonth++; if (calMonth > 12) { calMonth = 1; calYear++; } renderCalendar(); });
+
+                progressTabs.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('progress-tab')) {
+                        $$('.progress-tab').forEach(t => t.classList.remove('active'));
+                        e.target.classList.add('active');
+                        currentMetric = e.target.dataset.metric;
+                        renderProgressChart();
+                    }
+                });
+
+                btnSaveProgress.addEventListener('click', saveProgressEntry);
+
+                $('#waterPlus').addEventListener('click', () => changeHealthValue('waterGlasses', 1));
+                $('#waterMinus').addEventListener('click', () => changeHealthValue('waterGlasses', -1));
+                waterInput.addEventListener('change', () => setHealthValue('waterGlasses', parseInt(waterInput.value) || 0));
+
+                $('#sleepPlus').addEventListener('click', () => changeHealthValue('sleepHours', 0.5));
+                $('#sleepMinus').addEventListener('click', () => changeHealthValue('sleepHours', -0.5));
+                sleepInput.addEventListener('change', () => setHealthValue('sleepHours', parseFloat(sleepInput.value) || 0));
+
+                $('#proteinPlus').addEventListener('click', () => changeHealthValue('proteinGrams', 5));
+                $('#proteinMinus').addEventListener('click', () => changeHealthValue('proteinGrams', -5));
+                proteinInput.addEventListener('change', () => setHealthValue('proteinGrams', parseInt(proteinInput.value) || 0));
+
+                btnAddMeal.addEventListener('click', addMeal);
+
+                reminderWorkoutToggle.addEventListener('change', function() {
+                    appData.settings.reminders.workout.enabled = this.checked;
+                    reminderWorkoutTimeRow.style.display = this.checked ? 'flex' : 'none';
+                    saveReminderSettings();
+                });
+                reminderWorkoutTime.addEventListener('change', function() {
+                    appData.settings.reminders.workout.time = this.value;
+                    saveReminderSettings();
+                });
+                reminderWaterToggle.addEventListener('change', function() {
+                    appData.settings.reminders.water.enabled = this.checked;
+                    reminderWaterIntervalRow.style.display = this.checked ? 'flex' : 'none';
+                    saveReminderSettings();
+                });
+                reminderWaterInterval.addEventListener('change', function() {
+                    appData.settings.reminders.water.interval = parseInt(this.value) || 60;
+                    saveReminderSettings();
+                });
+                reminderSleepToggle.addEventListener('change', function() {
+                    appData.settings.reminders.sleep.enabled = this.checked;
+                    reminderSleepTimeRow.style.display = this.checked ? 'flex' : 'none';
+                    saveReminderSettings();
+                });
+                reminderSleepTime.addEventListener('change', function() {
+                    appData.settings.reminders.sleep.time = this.value;
+                    saveReminderSettings();
+                });
+                btnTestNotification.addEventListener('click', sendTestNotification);
+
+                // Goals
+                btnSaveGoals.addEventListener('click', saveGoalSettings);
+                // Reports
+                btnPrintReport.addEventListener('click', printReport);
+                btnExportExcel.addEventListener('click', exportExcel);
+            }
+
+            function loadReminderSettings() {
+                const r = appData.settings.reminders;
+                reminderWorkoutToggle.checked = r.workout.enabled;
+                reminderWorkoutTime.value = r.workout.time;
+                reminderWorkoutTimeRow.style.display = r.workout.enabled ? 'flex' : 'none';
+
+                reminderWaterToggle.checked = r.water.enabled;
+                reminderWaterInterval.value = r.water.interval;
+                reminderWaterIntervalRow.style.display = r.water.enabled ? 'flex' : 'none';
+
+                reminderSleepToggle.checked = r.sleep.enabled;
+                reminderSleepTime.value = r.sleep.time;
+                reminderSleepTimeRow.style.display = r.sleep.enabled ? 'flex' : 'none';
+            }
+
+            function saveReminderSettings() {
+                saveData();
+                startReminderChecker();
+            }
+
+            function loadGoalSettings() {
+                const g = appData.settings.goals;
+                goalWeight.value = g.weight || '';
+                goalPushups.value = g.pushups || '';
+                goalSquats.value = g.squats || '';
+                goalDips.value = g.dips || '';
+                goalPlank.value = g.plankSeconds || '';
+            }
+
+            function saveGoalSettings() {
+                appData.settings.goals = {
+                    weight: goalWeight.value ? parseFloat(goalWeight.value) : null,
+                    pushups: goalPushups.value ? parseInt(goalPushups.value) : null,
+                    squats: goalSquats.value ? parseInt(goalSquats.value) : null,
+                    dips: goalDips.value ? parseInt(goalDips.value) : null,
+                    plankSeconds: goalPlank.value ? parseInt(goalPlank.value) : null,
+                };
+                saveData();
+                showToast('اهداف ذخیره شد', true);
+                if (currentPage === 'progress') renderProgressChart();
+            }
+
+            function requestNotificationPermission() {
+                if (!('Notification' in window)) {
+                    showToast('مرورگر شما از اعلان پشتیبانی نمی‌کند', false);
+                    return;
+                }
+                if (Notification.permission === 'granted') {
+                    showToast('اعلان‌ها فعال هستند', true);
+                    notifBadge.style.display = 'none';
+                } else if (Notification.permission === 'denied') {
+                    showToast('اعلان‌ها مسدود شده‌اند', false);
+                } else {
+                    Notification.requestPermission().then(perm => {
+                        if (perm === 'granted') {
+                            showToast('اعلان‌ها فعال شدند', true);
+                            notifBadge.style.display = 'none';
+                        } else {
+                            showToast('دسترسی اعلان رد شد', false);
+                        }
+                    });
+                }
+            }
+
+            function updateNotifBadge() {
+                notifBadge.style.display = ('Notification' in window && Notification.permission === 'default') ? 'block' : 'none';
+            }
+
+            function sendNotification(title, body) {
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification(title, { body, icon: 'icons/icon-192.svg', badge: 'icons/icon-192.svg', lang: 'fa', dir: 'rtl' });
+                }
+            }
+
+            function sendTestNotification() {
+                sendNotification('🏋️ فیت‌پلاس', 'این یک اعلان تست است.');
+                showToast('اعلان تست ارسال شد', true);
+            }
+
+            function startReminderChecker() {
+                if (reminderCheckInterval) clearInterval(reminderCheckInterval);
+                reminderCheckInterval = setInterval(checkReminders, 60000);
+                checkReminders();
+            }
+
+            function checkReminders() {
+                if (!('Notification' in window) || Notification.permission !== 'granted') return;
+                const now = new Date();
+                const today = now.toISOString().slice(0,10);
+                const r = appData.settings.reminders;
+                const lastNotified = r.lastNotified || {};
+
+                if (r.workout.enabled) {
+                    const [h, m] = r.workout.time.split(':').map(Number);
+                    const reminderTime = new Date();
+                    reminderTime.setHours(h, m, 0, 0);
+                    if (Math.abs(now - reminderTime) < 60000 && lastNotified.workout !== today) {
+                        sendNotification('💪 زمان تمرین', 'امروز را با یک جلسه کالیستنیکس شروع کنید!');
+                        lastNotified.workout = today;
+                    }
+                }
+
+                if (r.water.enabled) {
+                    const intervalMs = (r.water.interval || 60) * 60000;
+                    const lastWaterNotif = lastNotified.water ? new Date(lastNotified.water) : new Date(0);
+                    if (now - lastWaterNotif >= intervalMs) {
+                        sendNotification('💧 آب بنوشید', 'یک لیوان آب فراموش نشود!');
+                        lastNotified.water = now.toISOString();
+                    }
+                }
+
+                if (r.sleep.enabled) {
+                    const [h, m] = r.sleep.time.split(':').map(Number);
+                    const reminderTime = new Date();
+                    reminderTime.setHours(h, m, 0, 0);
+                    if (Math.abs(now - reminderTime) < 60000 && lastNotified.sleep !== today) {
+                        sendNotification('🌙 وقت خواب', 'برای بازیابی بدن، به موقع بخوابید.');
+                        lastNotified.sleep = today;
+                    }
+                }
+
+                r.lastNotified = lastNotified;
+                saveData();
+            }
+
+            function setupPWA() {
+                window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; if (!localStorage.getItem('installDismissed') && !window.matchMedia('(display-mode: standalone)').matches) installBanner.classList.remove('hidden'); });
+                window.addEventListener('appinstalled', () => { installBanner.classList.add('hidden'); deferredPrompt = null; });
+                if (window.matchMedia('(display-mode: standalone)').matches) installBanner.classList.add('hidden');
+            }
+
+            function updateGreeting() {
+                const now = new Date(); const hour = now.getHours(); const userName = appData.settings.userName || 'قهرمان';
+                let emoji, text;
+                if (hour < 6) { emoji = '🌙'; text = 'شب خوش'; } else if (hour < 12) { emoji = '☀️'; text = 'صبح بخیر'; } else if (hour < 17) { emoji = '🌤️'; text = 'روز خوش'; } else if (hour < 20) { emoji = '🌅'; text = 'عصر بخیر'; } else { emoji = '🌆'; text = 'شب بخیر'; }
+                greetingEmoji.textContent = emoji; greetingText.textContent = `${text}، ${userName}!`;
+                try { greetingDate.textContent = '📆 ' + new Intl.DateTimeFormat('fa-IR', { weekday:'long', year:'numeric', month:'long', day:'numeric', calendar:'persian' }).format(now); } catch(e) { greetingDate.textContent = '📆 ' + now.toLocaleDateString('fa-IR'); }
+            }
+
+            function checkNewDay() {
+                const today = new Date().toISOString().slice(0,10);
+                if (appData.settings.lastActiveDate && appData.settings.lastActiveDate !== today) {}
+                appData.settings.lastActiveDate = today;
+                saveData();
+            }
+
+            function getAutoProgression() {
+                const startDate = appData.workouts.length > 0 ? new Date(appData.workouts[0].date) : new Date();
+                const now = new Date();
+                const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+                const week = Math.floor(diffDays / 7) + 1;
+                return { week, startDate };
+            }
+
+            function getAdjustedExercises(program) {
+                const { week } = getAutoProgression();
+                let pushupReps = 15, squatReps = 20, plankSec = 45, rounds = 3, rest = 90;
+                if (week >= 3) { pushupReps += 2; squatReps += 2; }
+                if (week >= 4) plankSec = 50;
+                if (week >= 5) rounds = 4;
+                if (week >= 6) rest = 60;
+
+                if (program === 'A') return [
+                    { name: `شنا معمولی ${rounds}×${pushupReps}`, targetReps: pushupReps, unit: 'تکرار' },
+                    { name: `دیپ روی صندلی ${rounds}×20`, targetReps: 20, unit: 'تکرار' },
+                    { name: `پلانک کامل ${rounds}×${plankSec} ثانیه`, targetReps: plankSec, unit: 'ثانیه' },
+                    { name: `کوهنوردی ${rounds}×20 هر پا`, targetReps: 20, unit: 'تکرار' },
+                    { name: `پل گلوتی تک‌پا ${rounds}×12 هر پا`, targetReps: 12, unit: 'تکرار' }
+                ];
+                else return [
+                    { name: `اسکوات ${rounds}×${squatReps}`, targetReps: squatReps, unit: 'تکرار' },
+                    { name: `لانژ ایستا ${rounds}×15 هر پا`, targetReps: 15, unit: 'تکرار' },
+                    { name: `پرش اسکوات ${rounds}×12`, targetReps: 12, unit: 'تکرار' },
+                    { name: `پلانک جانباز ${rounds}×30 ثانیه`, targetReps: 30, unit: 'ثانیه' },
+                    { name: `پل گلوتی دوپا ${rounds}×20`, targetReps: 20, unit: 'تکرار' }
+                ];
+            }
+
+            function getTodayProgram() { return new Date().getDate() % 2 === 0 ? 'A' : 'B'; }
+
+            function updateWorkoutPreview() {
+                const program = getTodayProgram();
+                const exercises = getAdjustedExercises(program);
+                workoutBadge.textContent = `برنامه ${program} (هفته ${getAutoProgression().week})`;
+                const today = new Date().toISOString().slice(0,10);
+                const completedToday = appData.workouts.some(w => w.date === today && w.completed);
+                workoutStatus.textContent = completedToday ? '✅ انجام شد' : 'در انتظار انجام';
+                workoutStatus.style.color = completedToday ? 'var(--green)' : 'var(--text-tertiary)';
+                btnStartWorkout.disabled = completedToday;
+                btnStartWorkout.textContent = completedToday ? 'امروز تمرین ثبت شده' : '▶ شروع تمرین امروز';
+                workoutExerciseList.innerHTML = exercises.map(ex => `<div class="workout-exercise"><span class="exercise-dot"></span><span>${ex.name}</span></div>`).join('');
+            }
+
+            function startWorkoutSession() {
+                if (workoutSession) return;
+                const program = getTodayProgram();
+                const exercises = getAdjustedExercises(program).map(ex => ({ ...ex, actualReps: '', done: false }));
+                workoutSession = { startTime: Date.now(), program, exercises };
+                sessionTitle.textContent = `جلسه برنامه ${program}`;
+                sessionExercises.innerHTML = exercises.map((ex, i) => `
+                    <div class="session-exercise">
+                        <input type="checkbox" class="ex-check" data-index="${i}" ${ex.done ? 'checked' : ''}>
+                        <span class="ex-name">${ex.name}</span>
+                        <input type="number" class="ex-input" data-index="${i}" placeholder="${ex.unit}" value="${ex.actualReps}" min="0">
+                        <button class="timer-preset-btn session-timer-btn" data-exercise="${ex.name}" data-seconds="${ex.name.includes('پلانک') ? ex.targetReps : 90}">⏱️ ${ex.name.includes('پلانک') ? 'پلانک' : 'استراحت'}</button>
+                    </div>
+                `).join('');
+                updateSessionTimer();
+                sessionInterval = setInterval(updateSessionTimer, 1000);
+                pageSections.forEach(s => s.classList.remove('active'));
+                $('#page-workout-session').classList.add('active');
+                currentPage = 'workout-session';
+                document.querySelectorAll('.ex-check').forEach(cb => cb.addEventListener('change', onExerciseCheck));
+                document.querySelectorAll('.ex-input').forEach(inp => inp.addEventListener('input', onExerciseInput));
+                document.querySelectorAll('.session-timer-btn').forEach(btn => btn.addEventListener('click', (e) => { const sec = parseInt(e.target.dataset.seconds); openTimerModal(sec); }));
+            }
+
+            function onExerciseCheck(e) { const idx = e.target.dataset.index; workoutSession.exercises[idx].done = e.target.checked; }
+            function onExerciseInput(e) { const idx = e.target.dataset.index; const val = e.target.value; workoutSession.exercises[idx].actualReps = val === '' ? '' : Number(val); }
+
+            function updateSessionTimer() {
+                if (!workoutSession) return;
+                const elapsed = Math.floor((Date.now() - workoutSession.startTime) / 1000);
+                const mins = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                const secs = (elapsed % 60).toString().padStart(2, '0');
+                sessionTimer.textContent = `${mins}:${secs}`;
+            }
+
+            function finishWorkoutSession() {
+                if (!workoutSession) return;
+                clearInterval(sessionInterval);
+                const duration = Math.floor((Date.now() - workoutSession.startTime) / 1000);
+                const exercisesData = workoutSession.exercises.map(ex => ({ name: ex.name, targetReps: ex.targetReps, actualReps: ex.actualReps === '' ? 0 : ex.actualReps, done: ex.done }));
+                if (!exercisesData.every(ex => ex.done && ex.actualReps > 0)) { showToast('لطفاً همه حرکات را انجام داده و تعداد را وارد کنید', false); return; }
+                const today = new Date().toISOString().slice(0,10);
+                const workout = { date: today, program: workoutSession.program, exercises: exercisesData, duration, completed: true };
+                appData.workouts.push(workout);
+                if (appData.lastWorkoutDate) {
+                    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0,10);
+                    if (appData.lastWorkoutDate === yesterday) appData.streak += 1;
+                    else if (appData.lastWorkoutDate !== today) appData.streak = 1;
+                } else appData.streak = 1;
+                appData.lastWorkoutDate = today;
+                saveData();
+                sendNotification('✅ تمرین کامل شد', `مدت: ${Math.floor(duration/60)} دقیقه. آفرین!`);
+                showToast(`✅ تمرین ثبت شد!`, true);
+                resetWorkoutSession();
+                navigateTo('dashboard');
+                updateDashboard();
+            }
+
+            function cancelWorkoutSession() {
+                if (confirm('از لغو جلسه مطمئنید؟')) { resetWorkoutSession(); navigateTo('dashboard'); showToast('جلسه لغو شد', false); }
+            }
+
+            function resetWorkoutSession() { clearInterval(sessionInterval); workoutSession = null; sessionExercises.innerHTML = ''; sessionTimer.textContent = '00:00'; }
+
+            function updateDashboard() { updateAllStats(); updateWorkoutPreview(); }
+
+            function updateAllStats() {
+                streakCount.textContent = appData.streak || 0;
+                const completed = appData.workouts.filter(w => w.completed);
+                totalWorkouts.textContent = completed.length;
+                const today = new Date().toISOString().slice(0,10);
+                const todayHealth = appData.healthLogs.find(h => h.date === today);
+                waterGlasses.textContent = todayHealth ? todayHealth.waterGlasses || 0 : 0;
+                if (appData.progressLogs.length > 0) currentWeight.textContent = appData.progressLogs[appData.progressLogs.length-1].weight || '--';
+                else currentWeight.textContent = '--';
+                let best = 0;
+                appData.progressLogs.forEach(p => { if (p.plankSeconds > best) best = p.plankSeconds; });
+                appData.workouts.forEach(w => { if (w.exercises) w.exercises.forEach(ex => { if (ex.name.includes('پلانک') && ex.actualReps > best) best = ex.actualReps; }); });
+                bestPlank.textContent = best > 0 ? best + 's' : '0s';
+                // Advanced stats
+                const totalDuration = completed.reduce((s, w) => s + w.duration, 0);
+                const totalMinutes = Math.floor(totalDuration / 60);
+                const avgPerWeek = completed.length > 0 ? (completed.length / Math.max(1, Math.ceil((new Date() - new Date(completed[0].date)) / (7*86400000)))).toFixed(1) : '0';
+                const bestStreak = appData.streak; // could be more advanced
+                advancedStats.textContent = `میانگین ${avgPerWeek} جلسه/هفته | ${totalMinutes} دقیقه`;
+            }
+
+            function openTimerModal(seconds = 90) {
+                if (timerInterval) { clearInterval(timerInterval); timerInterval = null; timerRunning = false; }
+                setTimer(seconds);
+                $$('.timer-preset-btn').forEach(b => b.classList.remove('active-preset'));
+                let matched = false;
+                $$('.timer-preset-btn').forEach(b => { if (parseInt(b.dataset.seconds) === seconds && !b.classList.contains('custom')) { b.classList.add('active-preset'); matched = true; } });
+                if (!matched) { $$('.timer-preset-btn').forEach(b => { if (b.classList.contains('custom')) b.classList.add('active-preset'); }); customTimerInput.style.display = 'block'; customTimerInput.value = seconds; }
+                else customTimerInput.style.display = 'none';
+                timerOverlay.classList.add('open');
+                updateTimerDisplay();
+            }
+
+            function closeTimerModal() { if (timerInterval) { clearInterval(timerInterval); timerInterval = null; timerRunning = false; } timerOverlay.classList.remove('open'); }
+            function setTimer(seconds) { timerSeconds = seconds; updateTimerDisplay(); }
+            function startTimer() { if (timerSeconds <= 0) return; if (timerInterval) clearInterval(timerInterval); timerRunning = true; timerInterval = setInterval(() => { if (timerSeconds > 0) { timerSeconds--; updateTimerDisplay(); if (timerSeconds === 0) { clearInterval(timerInterval); timerInterval = null; timerRunning = false; playBeep(); sendNotification('⏰ تایمر', 'زمان به پایان رسید!'); showToast('⏰ زمان به پایان رسید!', true); } } }, 1000); }
+            function pauseTimer() { if (timerInterval) { clearInterval(timerInterval); timerInterval = null; } timerRunning = false; }
+            function resetTimer() { if (timerInterval) { clearInterval(timerInterval); timerInterval = null; } timerRunning = false; const activePreset = $('.timer-preset-btn.active-preset'); if (activePreset && !activePreset.classList.contains('custom')) setTimer(parseInt(activePreset.dataset.seconds)); else setTimer(90); }
+            function updateTimerDisplay() { const mins = Math.floor(timerSeconds / 60).toString().padStart(2, '0'); const secs = (timerSeconds % 60).toString().padStart(2, '0'); timerDisplay.textContent = `${mins}:${secs}`; }
+            function playBeep() { try { const audioCtx = new (window.AudioContext || window.webkitAudioContext)(); const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination); osc.frequency.value = 880; gain.gain.setValueAtTime(0.5, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5); osc.start(); osc.stop(audioCtx.currentTime + 0.5); } catch (e) {} }
+
+            function quickAddWater() {
+                const today = new Date().toISOString().slice(0,10);
+                let h = appData.healthLogs.find(x => x.date === today);
+                if (!h) { h = { date: today, waterGlasses: 0, sleepHours: 0, proteinGrams: 0, meals: [] }; appData.healthLogs.push(h); }
+                h.waterGlasses = (h.waterGlasses || 0) + 1;
+                saveData(); updateAllStats(); showToast(`💧 ${h.waterGlasses} لیوان آب`, true);
+            }
+
+            function quickAddWeight() {
+                const w = prompt('وزن (کیلوگرم):');
+                if (w && !isNaN(w) && parseFloat(w) > 20) {
+                    const today = new Date().toISOString().slice(0,10);
+                    let p = appData.progressLogs.find(x => x.date === today);
+                    if (!p) { p = { date: today }; appData.progressLogs.push(p); }
+                    p.weight = parseFloat(w);
+                    saveData(); updateAllStats(); showToast(`⚖️ ${w} kg ثبت شد`, true);
+                } else if (w !== null) showToast('مقدار نامعتبر', false);
+            }
+
+            function showToast(msg, success = true) {
+                if (toastTimeout) clearTimeout(toastTimeout);
+                toast.textContent = msg; toast.className = 'toast ' + (success ? 'success' : '');
+                void toast.offsetHeight; toast.classList.add('show');
+                toastTimeout = setTimeout(() => toast.classList.remove('show'), 2200);
+            }
+
+            // ============== Persian Calendar ==============
+            function toPersianDate(date) {
+                try {
+                    const formatter = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { year: 'numeric', month: 'numeric', day: 'numeric' });
+                    const parts = formatter.formatToParts(date);
+                    return { year: parseInt(parts.find(p => p.type === 'year')?.value), month: parseInt(parts.find(p => p.type === 'month')?.value), day: parseInt(parts.find(p => p.type === 'day')?.value) };
+                } catch (e) {
+                    const jd = gregorianToJalali(date.getFullYear(), date.getMonth() + 1, date.getDate());
+                    return { year: jd[0], month: jd[1], day: jd[2] };
+                }
+            }
+
+            function gregorianToJalali(gy, gm, gd) {
+                const gdm = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+                let gy2 = (gm > 2) ? (gy + 1) : gy;
+                let days = 355666 + (365 * gy) + Math.floor((gy2 + 3) / 4) - Math.floor((gy2 + 99) / 100) + Math.floor((gy2 + 399) / 400) + gd + gdm[gm - 1];
+                let jy = -1595 + (33 * Math.floor(days / 12053));
+                days %= 12053;
+                jy += 4 * Math.floor(days / 1461);
+                days %= 1461;
+                if (days > 365) { jy += Math.floor((days - 1) / 365); days = (days - 1) % 365; }
+                let jm, jd;
+                if (days < 186) { jm = 1 + Math.floor(days / 31); jd = 1 + (days % 31); }
+                else { jm = 7 + Math.floor((days - 186) / 30); jd = 1 + ((days - 186) % 30); }
+                return [jy, jm, jd];
+            }
+
+            function getPersianMonthDays(year, month) {
+                if (month <= 6) return 31;
+                if (month <= 11) return 30;
+                return isPersianLeapYear(year) ? 30 : 29;
+            }
+
+            function isPersianLeapYear(year) {
+                const a = (year + 11) % 33;
+                return a !== 0 && a % 4 === 0;
+            }
+
+            function getFirstDayOfMonth(year, month) {
+                const gDate = jalaliToGregorian(year, month, 1);
+                return gDate.getDay();
+            }
+
+            function jalaliToGregorian(jy, jm, jd) {
+                const jdDay = jalaliToJd(jy, jm, jd);
+                const date = new Date((jdDay - 2440587.5) * 86400000);
+                return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+            }
+
+            function jalaliToJd(jy, jm, jd) {
+                const epbase = jy - 474;
+                const epyear = 474 + (epbase % 2820);
+                return jd + ((jm <= 7) ? ((jm - 1) * 31) : ((jm - 1) * 30 + 6)) + Math.floor(((epyear * 682) - 110) / 2816) + (epyear - 1) * 365 + Math.floor(epbase / 2820) * 1029983 + (1948320 - 1);
+            }
+
+            function renderCalendar() {
+                const monthNames = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
+                calMonthTitle.textContent = `${monthNames[calMonth-1]} ${calYear}`;
+                const firstDay = getFirstDayOfMonth(calYear, calMonth);
+                const daysInMonth = getPersianMonthDays(calYear, calMonth);
+                const today = toPersianDate(new Date());
+                let html = '';
+                let startOffset = (firstDay + 1) % 7;
+                for (let i = 0; i < startOffset; i++) html += '<div class="calendar-day other-month"></div>';
+                const workoutDates = appData.workouts.filter(w => w.completed).map(w => w.date);
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const gDate = jalaliToGregorian(calYear, calMonth, d);
+                    const isoDate = gDate.toISOString().slice(0,10);
+                    const isToday = (calYear === today.year && calMonth === today.month && d === today.day);
+                    const hasWorkout = workoutDates.includes(isoDate);
+                    let cls = 'calendar-day';
+                    if (isToday) cls += ' today';
+                    if (hasWorkout) cls += ' workout-day';
+                    html += `<div class="${cls}" data-date="${isoDate}" data-pday="${d}">${d}</div>`;
+                }
+                calendarGrid.innerHTML = html;
+                const monthWorkouts = appData.workouts.filter(w => {
+                    const d = new Date(w.date);
+                    const pd = toPersianDate(d);
+                    return pd.year === calYear && pd.month === calMonth && w.completed;
+                });
+                calSessions.textContent = monthWorkouts.length;
+                calMinutes.textContent = Math.floor(monthWorkouts.reduce((s, w) => s + (w.duration || 0), 0) / 60);
+                calendarGrid.querySelectorAll('.calendar-day').forEach(day => {
+                    day.addEventListener('click', function() {
+                        const date = this.dataset.date;
+                        const workout = appData.workouts.find(w => w.date === date && w.completed);
+                        dayDetail.classList.toggle('open', true);
+                        dayDetail.innerHTML = workout ? `<strong>${workout.program === 'A' ? 'برنامه A' : 'برنامه B'}</strong> | ${Math.floor(workout.duration/60)} دقیقه` : 'بدون تمرین';
+                    });
+                });
+            }
+
+            // ============== Progress Chart & Goals ==============
+            function renderProgressChart() {
+                const logs = appData.progressLogs
+                    .filter(log => log[currentMetric] !== undefined && log[currentMetric] !== null && log[currentMetric] !== '')
+                    .sort((a, b) => a.date.localeCompare(b.date));
+                if (logs.length === 0) {
+                    progressChart.innerHTML = '<text x="150" y="100" text-anchor="middle" fill="var(--text-tertiary)">داده‌ای نیست</text>';
+                    progressStats.innerHTML = '';
+                    goalProgressDiv.innerHTML = '';
+                    return;
+                }
+                const values = logs.map(l => l[currentMetric]);
+                const minVal = Math.min(...values);
+                const maxVal = Math.max(...values);
+                const range = maxVal - minVal || 1;
+                const width = 300, height = 200, padding = 20;
+                const chartW = width - padding * 2, chartH = height - padding * 2;
+                const points = logs.map((log, i) => `${padding + (i / (logs.length - 1 || 1)) * chartW},${padding + chartH - ((log[currentMetric] - minVal) / range) * chartH}`).join(' ');
+                progressChart.innerHTML = `<polyline fill="none" stroke="var(--accent)" stroke-width="3" points="${points}" />` +
+                    logs.map((log, i) => {
+                        const x = padding + (i / (logs.length - 1 || 1)) * chartW;
+                        const y = padding + chartH - ((log[currentMetric] - minVal) / range) * chartH;
+                        return `<circle cx="${x}" cy="${y}" r="3" fill="var(--accent)" />`;
+                    }).join('');
+                const firstVal = values[0], lastVal = values[values.length - 1];
+                const percentChange = firstVal ? ((lastVal - firstVal) / firstVal * 100).toFixed(1) : 0;
+                const trendIcon = percentChange > 0 ? '📈' : percentChange < 0 ? '📉' : '➡️';
+                progressStats.innerHTML = `<div class="progress-stat"><span class="progress-stat-value">${firstVal}</span> شروع</div><div class="progress-stat"><span class="progress-stat-value">${lastVal}</span> آخرین</div><div class="progress-stat"><span class="progress-stat-value">${trendIcon} ${percentChange}%</span></div>`;
+                // Goal progress
+                const goalKey = currentMetric === 'plankSeconds' ? 'plankSeconds' : currentMetric;
+                const goal = appData.settings.goals[goalKey];
+                if (goal) {
+                    const progressPercent = Math.min(100, Math.round((lastVal / goal) * 100));
+                    goalProgressDiv.innerHTML = `🎯 هدف: ${goal} | پیشرفت: ${progressPercent}% (${lastVal}/${goal})`;
+                } else {
+                    goalProgressDiv.innerHTML = 'هدفی تعیین نشده است.';
+                }
+            }
+
+            function saveProgressEntry() {
+                const date = progressDate.value;
+                if (!date) { showToast('تاریخ را انتخاب کنید', false); return; }
+                const entry = {
+                    date,
+                    weight: progressWeight.value ? parseFloat(progressWeight.value) : null,
+                    waist: progressWaist.value ? parseFloat(progressWaist.value) : null,
+                    pushups: progressPushups.value ? parseInt(progressPushups.value) : null,
+                    squats: progressSquats.value ? parseInt(progressSquats.value) : null,
+                    dips: progressDips.value ? parseInt(progressDips.value) : null,
+                    plankSeconds: progressPlank.value ? parseInt(progressPlank.value) : null,
+                };
+                const existingIndex = appData.progressLogs.findIndex(p => p.date === date);
+                if (existingIndex >= 0) appData.progressLogs[existingIndex] = { ...appData.progressLogs[existingIndex], ...entry };
+                else appData.progressLogs.push(entry);
+                saveData();
+                renderProgressChart();
+                updateAllStats();
+                showToast('رکورد ثبت شد', true);
+                progressWeight.value = ''; progressWaist.value = ''; progressPushups.value = ''; progressSquats.value = ''; progressDips.value = ''; progressPlank.value = '';
+                progressDate.value = new Date().toISOString().slice(0,10);
+            }
+
+            // ============== Health Page ==============
+            function getTodayHealthLog() {
+                const today = new Date().toISOString().slice(0,10);
+                let log = appData.healthLogs.find(h => h.date === today);
+                if (!log) { log = { date: today, waterGlasses: 0, sleepHours: 0, proteinGrams: 0, meals: [] }; appData.healthLogs.push(log); }
+                return log;
+            }
+
+            function changeHealthValue(field, delta) {
+                const log = getTodayHealthLog();
+                log[field] = Math.max(0, (log[field] || 0) + delta);
+                saveData(); renderHealthPage();
+            }
+
+            function setHealthValue(field, value) {
+                const log = getTodayHealthLog();
+                log[field] = Math.max(0, value);
+                saveData(); renderHealthPage();
+            }
+
+            function addMeal() {
+                const text = mealInput.value.trim();
+                if (!text) return;
+                const log = getTodayHealthLog();
+                log.meals.push(text);
+                saveData(); mealInput.value = ''; renderHealthPage();
+            }
+
+            function renderHealthPage() {
+                const todayLog = getTodayHealthLog();
+                healthWaterVal.textContent = todayLog.waterGlasses || 0;
+                waterInput.value = todayLog.waterGlasses || 0;
+                healthSleepVal.textContent = todayLog.sleepHours || 0;
+                sleepInput.value = todayLog.sleepHours || 0;
+                healthProteinVal.textContent = todayLog.proteinGrams || 0;
+                proteinInput.value = todayLog.proteinGrams || 0;
+                mealsList.innerHTML = todayLog.meals.map((meal, i) => `<div class="meal-item"><span>${meal}</span><button style="background:none;border:none;color:var(--red);" data-meal-index="${i}">✕</button></div>`).join('');
+                mealsList.querySelectorAll('button').forEach(btn => btn.addEventListener('click', function() {
+                    todayLog.meals.splice(parseInt(this.dataset.mealIndex), 1);
+                    saveData(); renderHealthPage();
+                }));
+                const last7Days = [...Array(7)].map((_, i) => {
+                    const d = new Date(); d.setDate(d.getDate() - i);
+                    return appData.healthLogs.find(h => h.date === d.toISOString().slice(0,10)) || { date: d.toISOString().slice(0,10), waterGlasses: 0, sleepHours: 0, proteinGrams: 0 };
+                }).reverse();
+                drawBarChart(waterChartDiv, last7Days.map(l => l.waterGlasses));
+                drawBarChart(sleepChartDiv, last7Days.map(l => l.sleepHours));
+                drawBarChart(proteinChartDiv, last7Days.map(l => l.proteinGrams));
+                const avg = arr => (arr.reduce((a,b)=>a+b,0)/7).toFixed(1);
+                weeklyReportDiv.innerHTML = `میانگین آب: ${avg(last7Days.map(l=>l.waterGlasses))} | خواب: ${avg(last7Days.map(l=>l.sleepHours))} | پروتئین: ${avg(last7Days.map(l=>l.proteinGrams))}`;
+            }
+
+            function drawBarChart(container, values) {
+                const max = Math.max(...values, 1);
+                const bars = values.map((v, i) => `<rect x="${i * 40 + 5}" y="${70 - (v/max)*60}" width="30" height="${(v/max)*60}" fill="var(--accent)" rx="4"/>`).join('');
+                const labels = values.map((v, i) => `<text x="${i*40+20}" y="85" text-anchor="middle" font-size="8" fill="var(--text-tertiary)">${v}</text>`).join('');
+                container.innerHTML = `<svg width="100%" height="90" viewBox="0 0 280 90">${bars}${labels}</svg>`;
+            }
+
+            // ============== Reports (Phase 8) ==============
+            function printReport() {
+                const win = window.open('', '_blank', 'width=800,height=600');
+                const workouts = appData.workouts.filter(w => w.completed);
+                const totalDuration = Math.floor(workouts.reduce((s, w) => s + w.duration, 0) / 60);
+                const healthLogs = appData.healthLogs;
+                const avgWater = (healthLogs.reduce((s, h) => s + (h.waterGlasses||0), 0) / Math.max(1, healthLogs.length)).toFixed(1);
+                const avgSleep = (healthLogs.reduce((s, h) => s + (h.sleepHours||0), 0) / Math.max(1, healthLogs.length)).toFixed(1);
+                win.document.write(`
+                    <html dir="rtl"><head><meta charset="UTF-8"><title>گزارش فیت‌پلاس</title>
+                    <style>body{font-family:Tahoma; padding:20px;} h1{color:#ff5722;} table{width:100%; border-collapse:collapse;} th,td{border:1px solid #ddd; padding:8px;}</style></head>
+                    <body>
+                        <h1>گزارش فیت‌پلاس</h1>
+                        <p>تاریخ: ${new Date().toLocaleDateString('fa-IR')}</p>
+                        <p>تعداد جلسات: ${workouts.length} | مجموع دقایق: ${totalMinutes} | استریک: ${appData.streak}</p>
+                        <p>میانگین آب: ${avgWater} لیوان | میانگین خواب: ${avgSleep} ساعت</p>
+                        <h3>جلسات تمرین</h3>
+                        <table><tr><th>تاریخ</th><th>برنامه</th><th>مدت</th><th>حرکات</th></tr>
+                        ${workouts.map(w => `<tr><td>${w.date}</td><td>${w.program}</td><td>${Math.floor(w.duration/60)} دقیقه</td><td>${w.exercises.filter(e=>e.done).length}</td></tr>`).join('')}
+                        </table>
+                    </body></html>
+                `);
+                win.document.close();
+                win.focus();
+                setTimeout(() => win.print(), 500);
+            }
+
+            function exportExcel() {
+                const workouts = appData.workouts.filter(w => w.completed);
+                let csv = '\uFEFFتاریخ,برنامه,مدت (دقیقه),حرکات\n';
+                workouts.forEach(w => {
+                    csv += `${w.date},${w.program},${Math.floor(w.duration/60)},${w.exercises.filter(e=>e.done).length}\n`;
+                });
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `workouts-${new Date().toISOString().slice(0,10)}.csv`;
+                a.click();
+                showToast('خروجی CSV دانلود شد', true);
+            }
+
+            function exportData() {
+                const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `fitness-backup-${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                showToast('پشتیبان‌گیری انجام شد', true);
+            }
+
+            function importData(file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const imported = JSON.parse(e.target.result);
+                        if (imported.settings && imported.workouts) {
+                            appData = deepMerge(appData, imported);
+                            saveData(); updateDashboard(); updateWorkoutPreview(); applyTheme(appData.settings.theme); updateThemeUI();
+                            loadReminderSettings(); loadGoalSettings(); startReminderChecker();
+                            showToast('اطلاعات بازیابی شد', true);
+                        } else showToast('فرمت نامعتبر', false);
+                    } catch { showToast('خطا در خواندن فایل', false); }
+                };
+                reader.readAsText(file);
+            }
+
+            function resetAllData() {
+                if (confirm('بازنشانی کامل؟')) {
+                    appData = {
+                        settings: { theme: appData.settings.theme, userName: '', lastActiveDate: '', reminders: { workout: { enabled: false, time: '07:00' }, water: { enabled: false, interval: 60 }, sleep: { enabled: false, time: '23:00' }, lastNotified: {} }, goals: {} },
+                        workouts: [], healthLogs: [], progressLogs: [], streak: 0, lastWorkoutDate: null
+                    };
+                    saveData(); updateDashboard(); updateAllStats(); updateWorkoutPreview(); loadReminderSettings(); loadGoalSettings();
+                    showToast('همه اطلاعات پاک شد', true);
+                }
+            }
+
+            function renderWorkoutPrograms() {
+                const exA = getAdjustedExercises('A');
+                const exB = getAdjustedExercises('B');
+                if ($('#workoutAExercises')) $('#workoutAExercises').innerHTML = exA.map(e => `<div class="workout-exercise"><span class="exercise-dot"></span><span>${e.name}</span></div>`).join('');
+                if ($('#workoutBExercises')) $('#workoutBExercises').innerHTML = exB.map(e => `<div class="workout-exercise"><span class="exercise-dot"></span><span>${e.name}</span></div>`).join('');
+            }
+
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js').then(r => console.log('SW ثبت شد')).catch(e => console.log('SW خطا')));
+            }
+
+            const lastPage = sessionStorage.getItem('lastPage');
+            if (lastPage && ['dashboard','workout','calendar','progress','health','settings'].includes(lastPage)) currentPage = lastPage;
+            init();
+            setTimeout(() => navigateTo(currentPage), 100);
+        })();
+    </script>
+</body>
+</html>
