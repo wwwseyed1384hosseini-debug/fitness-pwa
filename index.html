@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f13">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>فیت‌پلاس | مقایسه هفتگی</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="icons/icon-512.svg">
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css');
+        :root {
+            --bg: #0f0f13;
+            --surface: #1a1a24;
+            --surface2: #24243a;
+            --text: #f0f0f5;
+            --text2: #a0a0b5;
+            --accent: #ff5e3a;
+            --green: #4caf84;
+            --red: #f56565;
+            --radius: 24px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Vazirmatn', Tahoma, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            direction: rtl;
+        }
+        .app-shell {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            background: linear-gradient(180deg, #1a1a2e 0%, var(--bg) 30%);
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: rgba(20,20,30,0.9);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+            border-top: 1px solid rgba(255,255,255,0.08);
+            z-index: 1000;
+            border-radius: 30px 30px 0 0;
+        }
+        .nav-item {
+            background: none; border: none; color: var(--text2);
+            display: flex; flex-direction: column; align-items: center;
+            font-size: 0.65rem; gap: 4px; cursor: pointer; padding: 6px 10px;
+            border-radius: 16px; transition: 0.3s;
+        }
+        .nav-item.active { color: var(--accent); background: rgba(255,94,58,0.1); }
+        .nav-item svg { width: 24px; height: 24px; fill: currentColor; }
+        .page { display: none; padding: 20px; animation: slideIn 0.3s ease; }
+        .page.active { display: block; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .glass-card {
+            background: rgba(30,30,45,0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn:active { transform: scale(0.97); opacity: 0.9; }
+        .btn-sm { width: auto; padding: 10px 16px; font-size: 0.85rem; }
+        .input, textarea {
+            background: var(--surface2);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 14px;
+            border-radius: 14px;
+            color: white;
+            width: 100%;
+            margin: 8px 0;
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+        }
+        .input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+        .timer-circle {
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            border: 6px solid var(--surface2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            position: relative;
+        }
+        .chat-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 20px;
+            margin: 6px 0;
+            line-height: 1.6;
+        }
+        .chat-bubble.user { background: var(--accent); align-self: flex-end; }
+        .chat-bubble.ai { background: var(--surface2); align-self: flex-start; border-right: 3px solid var(--green); }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .stat-item {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 16px;
+            text-align: center;
+        }
+        .stat-item .value { font-size: 2rem; font-weight: 900; color: var(--accent); }
+        .stat-item .label { font-size: 0.75rem; color: var(--text2); }
+        .topic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+        .topic-btn {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px;
+            border-radius: 14px;
+            color: var(--text);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8rem;
+        }
+        .topic-btn:active { background: var(--accent); }
+        .progress-bar {
+            height: 10px;
+            background: var(--surface2);
+            border-radius: 5px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 5px;
+            transition: width 0.5s;
+        }
+        .belt-card { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .belt-icon { font-size: 2.5rem; width: 50px; text-align: center; }
+        .journal-entry {
+            background: var(--surface2);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 8px;
+            border-right: 3px solid var(--accent);
+        }
+        .journal-date { font-size: 0.75rem; color: var(--text2); }
+        .breathing-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,94,58,0.6), rgba(180,60,30,0.8));
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s linear;
+            box-shadow: 0 0 30px rgba(255,94,58,0.4);
+        }
+        .breathing-circle.inhale { transform: scale(1.3); }
+        .breathing-circle.hold { transform: scale(1.3); }
+        .breathing-circle.exhale { transform: scale(0.8); }
+        .breathing-phase {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .pattern-selector { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; }
+        .pattern-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            background: transparent;
+            color: var(--accent);
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .pattern-btn.active { background: var(--accent); color: white; }
+        .comparison-row { display: flex; justify-content: space-between; margin: 4px 0; font-size: 0.85rem; }
+        .comparison-row .trend-up { color: var(--green); }
+        .comparison-row .trend-down { color: var(--red); }
+    </style>
+</head>
+<body>
+<div class="app-shell" id="appShell">
+
+    <!-- Register Page -->
+    <div id="page-register" class="page active">
+        <div style="text-align:center;">
+            <h1 style="font-size:2rem;margin:20px 0;">فیت‌پلاس</h1>
+            <p style="color:var(--text2);">سوپر اپ ورزشی</p>
+        </div>
+        <div class="glass-card">
+            <input class="input" id="regName" placeholder="نام کامل">
+            <input class="input" id="regAge" type="number" placeholder="سن">
+            <input class="input" id="regWeight" type="number" placeholder="وزن (کیلوگرم)">
+            <select class="input" id="regGoal">
+                <option value="">هدف</option>
+                <option>کاهش وزن</option>
+                <option>عضله‌سازی</option>
+                <option>استقامت</option>
+                <option>تناسب اندام</option>
+            </select>
+            <button class="btn" onclick="register()">شروع 🚀</button>
+        </div>
+    </div>
+
+    <!-- Home -->
+    <div id="page-home" class="page">
+        <h2 id="welcomeMsg">سلام 👋</h2>
+        <div class="stat-grid">
+            <div class="stat-item" onclick="nav('dashboard')"><div class="value" id="streakHome">0</div><div class="label">روز پیاپی 🔥</div></div>
+            <div class="stat-item" onclick="nav('workout')"><div class="value">💪</div><div class="label">تمرین امروز</div></div>
+        </div>
+        <div class="card" id="beltCardHome">
+            <div class="belt-card">
+                <span class="belt-icon" id="beltEmojiHome">🥋</span>
+                <div style="flex:1;">
+                    <h3 id="beltNameHome">کمربند سفید</h3>
+                    <p style="font-size:0.8rem;">امتیاز: <span id="beltPointsHome">0</span></p>
+                    <div class="progress-bar"><div class="progress-fill" id="beltProgressHome" style="width:0%"></div></div>
+                    <small>ارتقا به <span id="nextBeltHome">زرد</span> با <span id="pointsToNextHome">100</span> امتیاز</small>
+                </div>
+            </div>
+        </div>
+        <div class="card" id="challengeCard">
+            <h3>🏆 چالش هفته</h3>
+            <p id="challengeTitle"></p>
+            <div class="progress-bar"><div class="progress-fill" id="challengeProgress" style="width:0%"></div></div>
+            <p id="challengeStatus" style="font-size:0.8rem;"></p>
+        </div>
+        <div class="card" onclick="nav('breathing')" style="cursor:pointer;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span>🧘 تمرین تنفس</span>
+                <span style="font-size:1.5rem;">→</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="page-dashboard" class="page">
+        <h2>📊 داشبورد</h2>
+        <div class="card" style="background:linear-gradient(135deg, #ff5e3a, #ff8a65);color:white;">
+            <h3>🔥 استریک</h3>
+            <div style="font-size:3rem;font-weight:900;" id="streakDash">0</div>
+        </div>
+        <div class="card">
+            <div class="belt-card">
+                <span class="belt-icon" id="beltEmojiDash">🥋</span>
+                <div style="flex:1;">
+                    <h3 id="beltNameDash">کمربند سفید</h3>
+                    <p style="font-size:0.8rem;">امتیاز: <span id="beltPointsDash">0</span></p>
+                    <div class="progress-bar"><div class="progress-fill" id="beltProgressDash" style="width:0%"></div></div>
+                    <small>ارتقا به <span id="nextBeltDash">زرد</span> با <span id="pointsToNextDash">100</span> امتیاز</small>
+                </div>
+            </div>
+        </div>
+        <!-- Weekly Comparison Card -->
+        <div class="card" id="weeklyComparisonCard">
+            <h3>📊 مقایسه با هفته قبل</h3>
+            <div id="comparisonContent">در حال محاسبه...</div>
+        </div>
+        <div class="card">
+            <p id="todayPlan">برنامه A</p>
+            <button class="btn" onclick="startWorkout()">شروع تمرین ▶</button>
+        </div>
+        <div class="card">
+            <h3>📝 یادداشت روزانه</h3>
+            <textarea id="journalInput" placeholder="امروز چه حسی داشتی؟..." rows="3"></textarea>
+            <button class="btn" onclick="saveJournal()">💾 ذخیره</button>
+            <div id="journalEntries"></div>
+        </div>
+    </div>
+
+    <!-- Workout -->
+    <div id="page-workout" class="page"><div id="workoutContainer"></div></div>
+
+    <!-- Breathing Page -->
+    <div id="page-breathing" class="page">
+        <h2>🧘 تمرین تنفس</h2>
+        <div class="pattern-selector">
+            <button class="pattern-btn active" data-pattern="4-7-8">۴-۷-۸</button>
+            <button class="pattern-btn" data-pattern="box">مربعی (۴-۴-۴-۴)</button>
+            <button class="pattern-btn" data-pattern="5-5">۵-۵</button>
+        </div>
+        <div class="breathing-circle" id="breathingCircle">
+            <span class="breathing-phase" id="breathingPhase">آماده</span>
+        </div>
+        <p style="text-align:center;font-size:1.2rem;margin-bottom:8px;" id="breathingTimer">00:00</p>
+        <button class="btn" id="breathingStartBtn" onclick="toggleBreathing()">شروع</button>
+    </div>
+
+    <!-- Chat -->
+    <div id="page-chat" class="page">
+        <h2>💬 پیام‌ها</h2>
+        <div id="chatMessages" style="max-height:400px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;"><input class="input" id="chatInput" placeholder="پیام..."><button class="btn" style="width:auto;" onclick="sendMsg()">ارسال</button></div>
+        <button class="btn" style="background:var(--red);margin-top:8px;" onclick="clearChat()">پاک کردن</button>
+    </div>
+
+    <!-- AI Coach -->
+    <div id="page-ai" class="page">
+        <h2>🧠 مربی آفلاین</h2>
+        <div class="topic-grid">
+            <button class="topic-btn" onclick="askCoach('pushup')">🤸 شنا</button>
+            <button class="topic-btn" onclick="askCoach('weight-loss')">⚖️ کاهش وزن</button>
+            <button class="topic-btn" onclick="askCoach('muscle')">💪 عضله</button>
+            <button class="topic-btn" onclick="askCoach('diet')">🥗 تغذیه</button>
+            <button class="topic-btn" onclick="askCoach('plank')">⏱️ پلانک</button>
+            <button class="topic-btn" onclick="askCoach('sleep')">😴 خواب</button>
+            <button class="topic-btn" onclick="askCoach('water')">💧 آب</button>
+            <button class="topic-btn" onclick="askCoach('motivation')">🔥 انگیزه</button>
+        </div>
+        <div id="coachChat" style="max-height:350px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;">
+            <input class="input" id="coachQuestion" placeholder="سوال خود را بنویسید...">
+            <button class="btn" style="width:auto;" onclick="searchGoogle()">🔍 جستجو در گوگل</button>
+        </div>
+    </div>
+
+    <!-- Settings -->
+    <div id="page-settings" class="page">
+        <h2>⚙️ تنظیمات</h2>
+        <div class="card">
+            <input class="input" id="setName" placeholder="نام">
+            <input class="input" id="setAge" placeholder="سن">
+            <input class="input" id="setWeight" placeholder="وزن">
+            <button class="btn" onclick="updateProfile()">بروزرسانی</button>
+            <button class="btn" style="background:var(--red);" onclick="logout()">خروج</button>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-page="home"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>خانه</button>
+        <button class="nav-item" data-page="dashboard"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>داشبورد</button>
+        <button class="nav-item" data-page="workout"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" fill="none"/></svg>تمرین</button>
+        <button class="nav-item" data-page="chat"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>چت</button>
+        <button class="nav-item" data-page="ai"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>مربی</button>
+        <button class="nav-item" data-page="settings"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.33-.02-.64-.06-.94l2.02-1.58c.18-.14.23-.38.12-.56l-1.89-3.28c-.12-.19-.36-.26-.56-.18l-2.38.96c-.5-.38-1.06-.68-1.66-.88L14.45 3.5c-.04-.2-.2-.34-.4-.34h-3.78c-.2 0-.36.14-.4.34l-.3 2.52c-.6.2-1.16.5-1.66.88l-2.38-.96c-.2-.08-.44-.01-.56.18l-1.89 3.28c-.12.19-.07.42.12.56l2.02 1.58c-.04.3-.06.61-.06.94 0 .33.02.64.06.94l-2.02 1.58c-.18.14-.23.38-.12.56l1.89 3.28c.12.19.36.26.56.18l2.38-.96c.5.38 1.06.68 1.66.88l.3 2.52c.04.2.2.34.4.34h3.78c.2 0 .36-.14.4-.34l.3-2.52c.6-.2 1.16-.5 1.66-.88l2.38.96c.2.08.44.01.56-.18l1.89-3.28c.12-.19.07-.42-.12-.56l-2.02-1.58zM12 15c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>تنظیمات</button>
+    </nav>
+</div>
+
+<script>
+    const STORAGE = 'fitplus_data';
+    const BELT_LEVELS = [
+        { name: 'سفید', emoji: '🥋', min: 0, max: 99 },
+        { name: 'زرد', emoji: '🟡', min: 100, max: 249 },
+        { name: 'نارنجی', emoji: '🟠', min: 250, max: 499 },
+        { name: 'سبز', emoji: '🟢', min: 500, max: 799 },
+        { name: 'آبی', emoji: '🔵', min: 800, max: 1199 },
+        { name: 'بنفش', emoji: '🟣', min: 1200, max: 1699 },
+        { name: 'قهوه‌ای', emoji: '🟤', min: 1700, max: 2299 },
+        { name: 'مشکی', emoji: '⚫', min: 2300, max: Infinity }
+    ];
+
+    let app = {
+        profile: null,
+        workouts: [],
+        streak: 0,
+        messages: [],
+        coachChat: [],
+        journal: [],
+        beltPoints: 0,
+        challenge: { type: '', target: 0, current: 0, weekStart: '' }
+    };
+
+    // Breathing state
+    let breathingInterval = null;
+    let breathingActive = false;
+    let currentPattern = '4-7-8';
+    let phaseIndex = 0;
+    let phaseTimer = 0;
+    const patterns = {
+        '4-7-8': [
+            { name: 'دم', duration: 4, scale: 'inhale' },
+            { name: 'نگه دار', duration: 7, scale: 'hold' },
+            { name: 'بازدم', duration: 8, scale: 'exhale' }
+        ],
+        'box': [
+            { name: 'دم', duration: 4, scale: 'inhale' },
+            { name: 'نگه دار', duration: 4, scale: 'hold' },
+            { name: 'بازدم', duration: 4, scale: 'exhale' },
+            { name: 'نگه دار', duration: 4, scale: 'hold' }
+        ],
+        '5-5': [
+            { name: 'دم', duration: 5, scale: 'inhale' },
+            { name: 'بازدم', duration: 5, scale: 'exhale' }
+        ]
+    };
+
+    const coachDB = {
+        'pushup': { title:'🤸 افزایش شنا', answer:'برنامه افزایش شنا:\nهفته ۱-۲: ۳ ست حداکثر\nهفته ۳-۴: ۵ ست ۵۰٪\nهفته ۵-۶: شنا انفجاری ۴×۸' },
+        'weight-loss': { title:'⚖️ کاهش وزن', answer:'کاهش ۵۰۰ کالری روزانه\n۳ روز تمرین قدرتی\n۲ روز هوازی\nخواب ۷-۸ ساعت' },
+        'muscle': { title:'💪 عضله‌سازی', answer:'پروتئین ۲ گرم به ازای کیلو\nشنا ۴×۱۲\nاسکوات ۴×۲۰\nاستراحت ۴۸ ساعته' },
+        'diet': { title:'🥗 تغذیه', answer:'قبل تمرین: موز + کره بادام\nبعد تمرین: مرغ + برنج\nمیان‌وعده: آجیل' },
+        'plank': { title:'⏱️ پلانک', answer:'هفته ۱: ۳×۳۰ ثانیه\nهفته ۲: ۳×۴۵\nهفته ۴: ۴×۶۰\nفرم: بدن صاف، شکم منقبض' },
+        'sleep': { title:'😴 خواب', answer:'ساعت خواب ثابت\nقطع صفحه نمایش ۱ ساعت قبل\nدمای اتاق ۱۸-۲۲' },
+        'water': { title:'💧 آب', answer:'۸ لیوان روزانه\nقبل تمرین ۱-۲ لیوان\nحین تمرین هر ۱۵ دقیقه' },
+        'motivation': { title:'🔥 انگیزه', answer:'هدف کوچک هفتگی\nثبت پیشرفت\nهمراه تمرینی\nجمله: "درد امروز، قدرت فرداست"' }
+    };
+
+    function load() {
+        const r = localStorage.getItem(STORAGE);
+        if (r) try { app = {...app, ...JSON.parse(r)}; } catch(e) {}
+        initChallenge();
+    }
+    function save() { localStorage.setItem(STORAGE, JSON.stringify(app)); }
+
+    function isReg() { return app.profile?.name; }
+    function requireReg() {
+        if (!isReg()) {
+            document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+            document.getElementById('page-register').classList.add('active');
+            return false;
+        }
+        return true;
+    }
+
+    function getBeltInfo() {
+        const points = app.beltPoints || 0;
+        let current = BELT_LEVELS[0];
+        let next = BELT_LEVELS[1];
+        for (let i = 0; i < BELT_LEVELS.length; i++) {
+            if (points >= BELT_LEVELS[i].min && points <= BELT_LEVELS[i].max) {
+                current = BELT_LEVELS[i];
+                next = BELT_LEVELS[i+1] || BELT_LEVELS[i];
+                break;
+            }
+        }
+        const range = current.max - current.min;
+        const progress = range > 0 ? ((points - current.min) / range) * 100 : 100;
+        const pointsToNext = next ? next.min - points : 0;
+        return { current, next, progress, pointsToNext };
+    }
+
+    function updateBeltUI() {
+        const info = getBeltInfo();
+        document.getElementById('beltEmojiHome').textContent = info.current.emoji;
+        document.getElementById('beltNameHome').textContent = `کمربند ${info.current.name}`;
+        document.getElementById('beltPointsHome').textContent = app.beltPoints;
+        document.getElementById('beltProgressHome').style.width = info.progress + '%';
+        document.getElementById('nextBeltHome').textContent = info.next.name;
+        document.getElementById('pointsToNextHome').textContent = info.pointsToNext;
+
+        document.getElementById('beltEmojiDash').textContent = info.current.emoji;
+        document.getElementById('beltNameDash').textContent = `کمربند ${info.current.name}`;
+        document.getElementById('beltPointsDash').textContent = app.beltPoints;
+        document.getElementById('beltProgressDash').style.width = info.progress + '%';
+        document.getElementById('nextBeltDash').textContent = info.next.name;
+        document.getElementById('pointsToNextDash').textContent = info.pointsToNext;
+    }
+
+    function nav(page) {
+        if (!requireReg()) return;
+        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+        document.getElementById(`page-${page}`).classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+        const navItem = document.querySelector(`[data-page="${page}"]`);
+        if (navItem) navItem.classList.add('active');
+        if (page === 'dashboard') { updateDashboard(); renderJournal(); updateBeltUI(); renderWeeklyComparison(); }
+        if (page === 'chat') renderChat();
+        if (page === 'ai') renderCoach();
+        if (page === 'settings') loadSettings();
+        if (page === 'home') updateHome();
+        if (page === 'breathing') resetBreathing();
+    }
+
+    function register() {
+        const n = document.getElementById('regName').value.trim();
+        const a = document.getElementById('regAge').value;
+        const w = document.getElementById('regWeight').value;
+        const g = document.getElementById('regGoal').value;
+        if (!n || !a || !w || !g) return alert('همه فیلدها الزامی است');
+        app.profile = { name: n, age: a, weight: w, goal: g };
+        save();
+        nav('home');
+    }
+
+    function updateDashboard() {
+        document.getElementById('streakDash').textContent = app.streak;
+        document.getElementById('todayPlan').textContent = `برنامه ${'ABCDEF'[new Date().getDay()%6]} (۳ حرکت)`;
+    }
+
+    function updateHome() {
+        document.getElementById('streakHome').textContent = app.streak;
+        document.getElementById('welcomeMsg').textContent = `سلام ${app.profile?.name} 👋`;
+        updateBeltUI();
+        updateChallengeUI();
+    }
+
+    // Weekly Challenge
+    const challenges = [
+        { type: 'pushups', target: 100, label: '۱۰۰ شنا در این هفته' },
+        { type: 'squats', target: 150, label: '۱۵۰ اسکوات' },
+        { type: 'plank', target: 300, label: '۵ دقیقه پلانک (مجموع)' },
+        { type: 'workouts', target: 5, label: '۵ جلسه تمرین' }
+    ];
+
+    function initChallenge() {
+        const now = new Date();
+        const weekStart = getWeekStart(now);
+        if (!app.challenge.weekStart || app.challenge.weekStart !== weekStart) {
+            const random = challenges[Math.floor(Math.random() * challenges.length)];
+            app.challenge = { type: random.type, target: random.target, current: 0, weekStart };
+        }
+        const thisWeekWorkouts = app.workouts.filter(w => w.date >= app.challenge.weekStart);
+        if (app.challenge.type === 'workouts') {
+            app.challenge.current = thisWeekWorkouts.length;
+        } else {
+            let total = 0;
+            thisWeekWorkouts.forEach(w => {
+                if (w.exercises) {
+                    w.exercises.forEach(ex => {
+                        if (ex.name && ex.name.includes(app.challenge.type === 'pushups' ? 'شنا' : app.challenge.type === 'squats' ? 'اسکوات' : app.challenge.type === 'plank' ? 'پلانک' : '')) {
+                            total += ex.actual || 0;
+                        }
+                    });
+                }
+            });
+            app.challenge.current = total;
+        }
+        save();
+        updateChallengeUI();
+    }
+
+    function getWeekStart(date) {
+        const d = new Date(date);
+        d.setHours(0,0,0,0);
+        d.setDate(d.getDate() - d.getDay()); // Sunday
+        return d.toISOString().slice(0,10);
+    }
+
+    function updateChallengeUI() {
+        const card = document.getElementById('challengeCard');
+        if (!card) return;
+        const c = app.challenge;
+        document.getElementById('challengeTitle').textContent = challenges.find(ch => ch.type === c.type)?.label || 'چالش این هفته';
+        const percent = Math.min(100, (c.current / c.target) * 100);
+        document.getElementById('challengeProgress').style.width = percent + '%';
+        document.getElementById('challengeStatus').textContent = `${c.current} / ${c.target} (${Math.floor(percent)}%)`;
+        if (percent >= 100) card.style.border = '2px solid var(--green)';
+    }
+
+    // Weekly Comparison
+    function getWeekStats(startDate) {
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + 6);
+        const endStr = endDate.toISOString().slice(0,10);
+        const workouts = app.workouts.filter(w => w.date >= startDate && w.date <= endStr);
+        const count = workouts.length;
+        let pushups = 0, squats = 0, planks = 0;
+        workouts.forEach(w => {
+            if (w.exercises) {
+                w.exercises.forEach(ex => {
+                    if (ex.name.includes('شنا')) pushups += ex.actual || 0;
+                    if (ex.name.includes('اسکوات')) squats += ex.actual || 0;
+                    if (ex.name.includes('پلانک')) planks += ex.actual || 0;
+                });
+            }
+        });
+        return { count, pushups, squats, planks };
+    }
+
+    function renderWeeklyComparison() {
+        const thisWeekStart = getWeekStart(new Date());
+        const lastWeekStart = getWeekStart(new Date(Date.now() - 7 * 86400000));
+        const thisStats = getWeekStats(thisWeekStart);
+        const lastStats = getWeekStats(lastWeekStart);
+
+        const compare = (val, prev) => {
+            if (prev === 0 && val === 0) return { text: 'بدون تغییر', cls: '' };
+            if (prev === 0) return { text: `+${val} (جدید)`, cls: 'trend-up' };
+            const change = ((val - prev) / prev * 100).toFixed(0);
+            if (change > 0) return { text: `+${change}% ↑`, cls: 'trend-up' };
+            if (change < 0) return { text: `${change}% ↓`, cls: 'trend-down' };
+            return { text: 'بدون تغییر', cls: '' };
+        };
+
+        const compWorkouts = compare(thisStats.count, lastStats.count);
+        const compPushups = compare(thisStats.pushups, lastStats.pushups);
+        const compSquats = compare(thisStats.squats, lastStats.squats);
+        const compPlanks = compare(thisStats.planks, lastStats.planks);
+
+        document.getElementById('comparisonContent').innerHTML = `
+            <div class="comparison-row"><span>🏋️ جلسات:</span> <span class="${compWorkouts.cls}">${thisStats.count} (هفته قبل ${lastStats.count}) ${compWorkouts.text}</span></div>
+            <div class="comparison-row"><span>🤸 شنا:</span> <span class="${compPushups.cls}">${thisStats.pushups} (${lastStats.pushups}) ${compPushups.text}</span></div>
+            <div class="comparison-row"><span>🦵 اسکوات:</span> <span class="${compSquats.cls}">${thisStats.squats} (${lastStats.squats}) ${compSquats.text}</span></div>
+            <div class="comparison-row"><span>⏱️ پلانک:</span> <span class="${compPlanks.cls}">${thisStats.planks} (${lastStats.planks}) ${compPlanks.text}</span></div>
+        `;
+    }
+
+    // Journal
+    function saveJournal() {
+        const text = document.getElementById('journalInput').value.trim();
+        if (!text) return alert('چیزی بنویسید!');
+        const today = new Date().toISOString().slice(0,10);
+        const existing = app.journal.findIndex(j => j.date === today);
+        if (existing >= 0) {
+            app.journal[existing].text = text;
+        } else {
+            app.journal.push({ date: today, text });
+        }
+        save();
+        document.getElementById('journalInput').value = '';
+        renderJournal();
+    }
+
+    function renderJournal() {
+        const container = document.getElementById('journalEntries');
+        const today = new Date().toISOString().slice(0,10);
+        const todayEntry = app.journal.find(j => j.date === today);
+        let html = '';
+        if (todayEntry) {
+            html += `<div class="journal-entry"><span class="journal-date">امروز</span><br>${todayEntry.text}</div>`;
+        }
+        const previous = app.journal.filter(j => j.date < today).sort((a,b) => b.date.localeCompare(a.date)).slice(0,3);
+        previous.forEach(entry => {
+            html += `<div class="journal-entry"><span class="journal-date">${entry.date}</span><br>${entry.text}</div>`;
+        });
+        container.innerHTML = html;
+        document.getElementById('journalInput').value = todayEntry?.text || '';
+    }
+
+    // Workout
+    let workoutTimer, restTimer;
+    function startWorkout() {
+        if (!requireReg()) return;
+        const exs = [
+            {name:'شنا', reps:15, rest:90},
+            {name:'اسکوات', reps:20, rest:90},
+            {name:'پلانک', reps:45, rest:90}
+        ];
+        let idx = 0;
+        const container = document.getElementById('workoutContainer');
+        let currentWorkoutResults = [];
+        function showEx() {
+            if (idx >= exs.length) { finishWorkout(); return; }
+            const e = exs[idx];
+            container.innerHTML = `
+                <div style="text-align:center;">
+                    <h2>${e.name}</h2><p>هدف: ${e.reps}</p>
+                    <div class="timer-circle"><span style="font-size:2rem;" id="timerText">00:00</span></div>
+                    <button class="btn" id="doneBtn">انجام شد ✅</button>
+                </div>`;
+            let sec = 0;
+            const text = document.getElementById('timerText');
+            workoutTimer = setInterval(() => {
+                sec++;
+                text.textContent = `${Math.floor(sec/60).toString().padStart(2,'0')}:${(sec%60).toString().padStart(2,'0')}`;
+            }, 1000);
+            document.getElementById('doneBtn').onclick = () => {
+                clearInterval(workoutTimer);
+                const actual = prompt(`تعداد واقعی ${e.name}:`, e.reps);
+                currentWorkoutResults.push({name:e.name, target:e.reps, actual:parseInt(actual)||0});
+                idx++;
+                container.innerHTML = `<div style="text-align:center;"><h2>⏱️ استراحت</h2><div class="timer-circle"><span style="font-size:2rem;" id="restText">${e.rest}</span></div><button class="btn" onclick="skipRest()">رد کردن</button></div>`;
+                let r = e.rest;
+                restTimer = setInterval(() => {
+                    r--;
+                    document.getElementById('restText').textContent = r;
+                    if (r <= 0) { clearInterval(restTimer); showEx(); }
+                }, 1000);
+            };
+        }
+        window.skipRest = () => { clearInterval(restTimer); idx++; showEx(); };
+        function finishWorkout() {
+            app.workouts.push({date: new Date().toISOString().slice(0,10), exercises: currentWorkoutResults});
+            app.streak++;
+            let pointsEarned = 10;
+            if (app.streak > 1) pointsEarned += 5;
+            app.beltPoints = (app.beltPoints || 0) + pointsEarned;
+            save();
+            initChallenge();
+            updateBeltUI();
+            alert(`تمرین ثبت شد! +${pointsEarned} امتیاز`);
+            nav('dashboard');
+        }
+        showEx();
+        nav('workout');
+    }
+
+    // Chat
+    function sendMsg() {
+        const t = document.getElementById('chatInput').value.trim();
+        if (t) {
+            app.messages.push({text:t, sender:app.profile?.name, time:Date.now()});
+            save();
+            document.getElementById('chatInput').value = '';
+            renderChat();
+        }
+    }
+    function renderChat() {
+        document.getElementById('chatMessages').innerHTML = app.messages.map(m => `<div class="chat-bubble user"><strong>${m.sender}</strong><br>${m.text}</div>`).join('');
+    }
+    function clearChat() { if (confirm('پاک شود؟')) { app.messages = []; save(); renderChat(); } }
+
+    // Offline Coach
+    function askCoach(topic) {
+        const info = coachDB[topic];
+        if (!info) return;
+        app.coachChat.push({question: info.title, answer: info.answer});
+        save();
+        renderCoach();
+    }
+    function renderCoach() {
+        const box = document.getElementById('coachChat');
+        box.innerHTML = app.coachChat.map(c => `
+            <div class="chat-bubble user"><strong>${c.question}</strong></div>
+            <div class="chat-bubble ai">${c.answer.replace(/\n/g, '<br>')}</div>
+        `).join('');
+    }
+    function searchGoogle() {
+        const q = document.getElementById('coachQuestion').value.trim();
+        if (q) window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
+        else alert('سوال را وارد کنید');
+    }
+
+    // Breathing
+    function resetBreathing() {
+        stopBreathing();
+        document.getElementById('breathingCircle').className = 'breathing-circle';
+        document.getElementById('breathingPhase').textContent = 'آماده';
+        document.getElementById('breathingTimer').textContent = '00:00';
+        document.getElementById('breathingStartBtn').textContent = 'شروع';
+    }
+
+    function selectPattern(pattern) {
+        currentPattern = pattern;
+        document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector(`[data-pattern="${pattern}"]`).classList.add('active');
+        resetBreathing();
+    }
+
+    function toggleBreathing() {
+        if (breathingActive) {
+            stopBreathing();
+            document.getElementById('breathingStartBtn').textContent = 'شروع';
+        } else {
+            startBreathing();
+            document.getElementById('breathingStartBtn').textContent = 'توقف';
+        }
+    }
+
+    function startBreathing() {
+        if (breathingInterval) clearInterval(breathingInterval);
+        const phases = patterns[currentPattern];
+        phaseIndex = 0;
+        phaseTimer = phases[0].duration;
+        updateBreathingDisplay(phases[0]);
+        breathingActive = true;
+
+        breathingInterval = setInterval(() => {
+            phaseTimer--;
+            if (phaseTimer <= 0) {
+                phaseIndex = (phaseIndex + 1) % phases.length;
+                phaseTimer = phases[phaseIndex].duration;
+                updateBreathingDisplay(phases[phaseIndex]);
+            }
+            updateBreathingTimerDisplay();
+        }, 1000);
+    }
+
+    function stopBreathing() {
+        if (breathingInterval) {
+            clearInterval(breathingInterval);
+            breathingInterval = null;
+        }
+        breathingActive = false;
+    }
+
+    function updateBreathingDisplay(phase) {
+        const circle = document.getElementById('breathingCircle');
+        circle.className = 'breathing-circle ' + phase.scale;
+        document.getElementById('breathingPhase').textContent = phase.name;
+        document.getElementById('breathingTimer').textContent = phase.duration + ' ثانیه';
+    }
+
+    function updateBreathingTimerDisplay() {
+        document.getElementById('breathingTimer').textContent = phaseTimer + ' ثانیه';
+    }
+
+    // Settings
+    function updateProfile() {
+        app.profile.name = document.getElementById('setName').value;
+        app.profile.age = document.getElementById('setAge').value;
+        app.profile.weight = document.getElementById('setWeight').value;
+        save();
+        alert('بروز شد');
+    }
+    function loadSettings() {
+        document.getElementById('setName').value = app.profile?.name || '';
+        document.getElementById('setAge').value = app.profile?.age || '';
+        document.getElementById('setWeight').value = app.profile?.weight || '';
+    }
+    function logout() { if (confirm('خارج میشوید؟')) { localStorage.removeItem(STORAGE); location.reload(); } }
+
+    // Init
+    document.querySelectorAll('.nav-item').forEach(b => b.addEventListener('click', () => nav(b.dataset.page)));
+    document.querySelectorAll('.pattern-btn').forEach(b => b.addEventListener('click', () => selectPattern(b.dataset.pattern)));
+    load();
+    if (isReg()) { nav('home'); } else { document.querySelector('.bottom-nav').style.display = 'none'; }
+</script>
+</body>
+</html>
