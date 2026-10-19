@@ -1,0 +1,22 @@
+{
+  "id": "./",
+  "name": "فیت‌پلاس | برنامه تمرینی شخصی",
+  "short_name": "فیت‌پلاس",
+  "description": "برنامه تمرینی شخصی، ثبت جلسات، پیگیری پیشرفت و ابزارهای سلامت روزمره",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f0f13",
+  "theme_color": "#0f0f13",
+  "icons": [
+    {
+      "src": "icons/icon-512.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
